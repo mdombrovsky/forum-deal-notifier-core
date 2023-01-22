@@ -1,8 +1,7 @@
 package notification
 
 import Post
-import user.User
 
-interface Notifier {
-    suspend fun notify(user: User, post: Post)
+interface Notifier<T : NotifierIdentification> {
+    suspend fun notify(id: T, post: Post)
 }
