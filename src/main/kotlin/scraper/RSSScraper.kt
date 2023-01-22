@@ -21,11 +21,7 @@ class RSSScraper(url: String) : Scraper {
         }
         return posts
     }
-
-    override suspend fun getAllPosts(): SortedPostList {
-        return fetchPosts()
-    }
-
+    
     override suspend fun getNewPosts(): SortedPostList {
         return fetchPosts().also {
             it.removeAllOlderThan(mostRecentPostDate)

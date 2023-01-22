@@ -10,8 +10,11 @@ class Post(
 
     val id: String = title + date.time
 
-    fun contains(searchString: String): Boolean {
-        return title.toLowerCase().contains(searchString)
+    private val stringToSearchNoSpacesLowercase: String =
+        (title.replace("\\s+".toRegex(), "")).toLowerCase()
+
+    fun searchNoSpacesLowerCase(searchString: String): Boolean {
+        return stringToSearchNoSpacesLowercase.contains(searchString)
     }
 
     override fun toString(): String {
@@ -47,33 +50,29 @@ class Post(
         hours %= 24
 
         return when {
-            days != zero -> "$days day" +
-                    if (days != one) {
-                        "s"
-                    } else {
-                        ""
-                    } + "ago"
+            days != zero -> "$days day" + if (days != one) {
+                "s"
+            } else {
+                ""
+            } + "ago"
 
-            hours != zero -> "$hours hour" +
-                    if (hours != one) {
-                        "s"
-                    } else {
-                        ""
-                    } + " ago "
+            hours != zero -> "$hours hour" + if (hours != one) {
+                "s"
+            } else {
+                ""
+            } + " ago "
 
-            minutes != zero -> "$minutes minute" +
-                    if (minutes != one) {
-                        "s"
-                    } else {
-                        ""
-                    } + " ago"
+            minutes != zero -> "$minutes minute" + if (minutes != one) {
+                "s"
+            } else {
+                ""
+            } + " ago"
 
-            else -> "$seconds second" +
-                    if (seconds != one) {
-                        "s"
-                    } else {
-                        ""
-                    } + " ago"
+            else -> "$seconds second" + if (seconds != one) {
+                "s"
+            } else {
+                ""
+            } + " ago"
         }
 
     }

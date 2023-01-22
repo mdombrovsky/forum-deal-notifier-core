@@ -6,12 +6,6 @@ import java.io.Serializable
 interface Scraper : Serializable {
 
     /**
-     * Gets all the posts, mostly useful for debugging
-     * Use @see getNewPosts(): SortedPostList instead
-     */
-    suspend fun getAllPosts(): SortedPostList
-
-    /**
      * Gets all the new posts that have appeared after this function was last called
      */
     suspend fun getNewPosts(): SortedPostList
