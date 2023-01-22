@@ -1,4 +1,3 @@
-
 import java.io.Serializable
 import java.util.*
 
@@ -9,8 +8,8 @@ class Post(
     val source: String = ""
 ) : Serializable {
 
-    val id:String = title+date.time
-    
+    val id: String = title + date.time
+
     fun contains(searchString: String): Boolean {
         return title.toLowerCase().contains(searchString)
     }
@@ -54,18 +53,21 @@ class Post(
                     } else {
                         ""
                     } + "ago"
+
             hours != zero -> "$hours hour" +
                     if (hours != one) {
                         "s"
                     } else {
                         ""
                     } + " ago "
+
             minutes != zero -> "$minutes minute" +
                     if (minutes != one) {
                         "s"
                     } else {
                         ""
                     } + " ago"
+
             else -> "$seconds second" +
                     if (seconds != one) {
                         "s"
@@ -74,6 +76,10 @@ class Post(
                     } + " ago"
         }
 
+    }
+
+    fun toPrettyString(): String {
+        return "{$title}\n\n${url}"
     }
 
 }
