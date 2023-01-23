@@ -1,5 +1,5 @@
 package notification
 
-interface NotifierIdentification {
+interface NotifierCredentials {
     val value: String
 }

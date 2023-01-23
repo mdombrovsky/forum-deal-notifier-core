@@ -1,32 +1,34 @@
 package user
 
-import notification.NotifierIdentification
+import notification.NotifierCredentials
 
 class User(val name: String) {
-    private val ids = HashMap<String, NotifierIdentification>()
+    private val credentials = HashMap<String, NotifierCredentials>()
 
-    fun registerId(id: NotifierIdentification) {
+    fun registerCredential(id: NotifierCredentials) {
         val key = id::class.java.canonicalName
-        if (ids.containsKey(key)) {
-            throw UnsupportedOperationException("NotifierIdentification already exists")
+        if (credentials.containsKey(key)) {
+            throw UnsupportedOperationException("NotifierCredentials already exists")
         }
-        ids[key] = id
+        credentials[key] = id
     }
 
-    fun deregisterId(clazz: Class<out NotifierIdentification>) {
+    fun deregisterCredential(clazz: Class<out NotifierCredentials>): Boolean {
         val key = clazz.canonicalName
-        if (!ids.containsKey(key)) {
-            throw UnsupportedOperationException("NotifierIdentification does not exist")
+        if (!credentials.containsKey(key)) {
+            return false
         }
-        ids.remove(key)
+        return credentials.remove(key) != null
+
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T : NotifierIdentification> retrieveId(clazz: Class<T>): T {
+    fun <T : NotifierCredentials> retrieveCredential(clazz: Class<T>): T? {
         val key = clazz.canonicalName
-        if (ids[key] == null) {
-            throw UnsupportedOperationException("NotifierIdentification does not exist")
+        if (credentials[key] == null) {
+            return null
         }
-        return (ids[key] as? T ?: throw UnsupportedOperationException("NotifierIdentification retrieval fatal error"))
+        return (credentials[key] as? T
+            ?: throw UnsupportedOperationException("NotifierCredentials retrieval fatal error"))
     }
 }
