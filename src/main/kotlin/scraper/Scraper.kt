@@ -2,31 +2,49 @@ package scraper
 
 import SortedPostList
 import java.io.Serializable
+import java.util.*
 
-interface Scraper : Serializable {
+abstract class Scraper : Serializable {
+
+    private var mostRecentPostDate: Date? = null
+
+    /**
+     * Gets all the posts
+     */
+    abstract suspend fun getAllPosts(): SortedPostList
 
     /**
      * Gets all the new posts that have appeared after this function was last called
      */
-    suspend fun getNewPosts(): SortedPostList
+    suspend fun getNewPosts(): SortedPostList {
+        return getAllPosts().also {
+            it.removeAllOlderThan(mostRecentPostDate)
+            if (it.isNotEmpty()) {
+                mostRecentPostDate = it[0].date
+            }
+        }
+    }
 
     /**
      * The displayable name of this scraper
      */
-    fun getName(): String
+    abstract fun getName(): String
 
     /**
      * Need to override this method
      */
-    override fun equals(other: Any?): Boolean
+    abstract override fun equals(other: Any?): Boolean
 
     /**
      * Need to override this method
      */
-    override fun hashCode(): Int
+    abstract override fun hashCode(): Int
 
     /**
      * Resets the state of the scraper
      */
-    fun reset()
+    fun reset() {
+        mostRecentPostDate = null
+    }
+
 }

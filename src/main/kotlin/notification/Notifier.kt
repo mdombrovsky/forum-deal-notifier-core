@@ -1,8 +1,9 @@
 package notification
 
 import Post
+import Query
 import user.User
 
-interface Notifier<T : NotifierCredentials> {
-    suspend fun notify(user: User, post: Post)
+interface Notifier {
+    suspend fun notify(user: User, query: Query, post: Post)
 }

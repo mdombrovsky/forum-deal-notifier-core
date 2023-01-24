@@ -5,13 +5,11 @@ import SortedPostList
 import com.rometools.rome.io.SyndFeedInput
 import com.rometools.rome.io.XmlReader
 import java.net.URL
-import java.util.*
 
-class RSSScraper(url: String) : Scraper {
+class RSSScraper(url: String) : Scraper() {
     private val url = URL(url)
-    private var mostRecentPostDate: Date? = null
 
-    private suspend fun fetchPosts(): SortedPostList {
+    override suspend fun getAllPosts(): SortedPostList {
         val posts = SortedPostList()
         val feed = SyndFeedInput().build(XmlReader(url))
         for (entry in feed.entries) {
@@ -21,22 +19,9 @@ class RSSScraper(url: String) : Scraper {
         }
         return posts
     }
-    
-    override suspend fun getNewPosts(): SortedPostList {
-        return fetchPosts().also {
-            it.removeAllOlderThan(mostRecentPostDate)
-            if (it.isNotEmpty()) {
-                mostRecentPostDate = it[0].date
-            }
-        }
-    }
 
     override fun getName(): String {
         return "RSS:${url}"
-    }
-
-    override fun reset() {
-        mostRecentPostDate = null
     }
 
     override fun equals(other: Any?): Boolean {

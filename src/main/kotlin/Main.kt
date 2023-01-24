@@ -1,5 +1,6 @@
 import notification.TelegramId
 import notification.TelegramNotifier
+import post.PostSniper
 import scraper.RSSScraper
 import scraper.Scraper
 import user.User
@@ -17,5 +18,15 @@ suspend fun main(args: Array<String>) {
 
     val bufferedReader2: BufferedReader = File("telegram.api").bufferedReader()
     val apiKey = bufferedReader2.use { it.readText() }.trim()
-    TelegramNotifier(apiKey).notify(user, scraper.getNewPosts()[0])
+    val telegramNotifier = TelegramNotifier(apiKey)
+
+    val postSniper = PostSniper(scraper)
+    user.queriesManager.addQuery(
+        queryString = "Sennheiser",
+        postSniper = postSniper,
+        notifier = telegramNotifier,
+        user = user
+    )
+    postSniper.process()
+
 }

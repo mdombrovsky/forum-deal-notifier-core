@@ -1,9 +1,11 @@
 package user
 
 import notification.NotifierCredentials
+import query.QueriesManager
 
 class User(val name: String) {
     private val credentials = HashMap<String, NotifierCredentials>()
+    val queriesManager = QueriesManager()
 
     fun registerCredential(id: NotifierCredentials) {
         val key = id::class.java.canonicalName
@@ -19,7 +21,6 @@ class User(val name: String) {
             return false
         }
         return credentials.remove(key) != null
-
     }
 
     @Suppress("UNCHECKED_CAST")
