@@ -19,10 +19,8 @@ class PostSniper(val scraper: Scraper, queries: List<Query> = listOf()) {
 
         for (query in queries) {
             for (post in posts) {
-                if (query.matches(post)) {
-                    // Early exit if current query is triggered
-                    break
-                }
+                //TODO prevent duplicate matches, for example query 1 and query 2 of user 1 both flag a post
+                query.matches(post)
             }
         }
     }
