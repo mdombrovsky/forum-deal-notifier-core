@@ -8,7 +8,6 @@ class Query(
     var title: String = "",
     criteriaInput: ArrayList<Criteria> = ArrayList(),
     var enabled: Boolean = true,
-    var onMatched: (suspend (Post) -> Unit)? = null
 ) {
 
 
@@ -42,7 +41,6 @@ class Query(
                     return false
                 }
             }
-            onMatched?.invoke(post)
             return true
         }
 

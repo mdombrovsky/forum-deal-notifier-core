@@ -22,11 +22,18 @@ suspend fun main(args: Array<String>) {
 
     val postSniper = PostSniper(scraper)
     user.queriesManager.addQuery(
-        queryString = "Sennheiser",
+        queryString = "Lenovo",
         postSniper = postSniper,
         notifier = telegramNotifier,
         user = user,
         queryTitle = "Test Query"
+    )
+    user.queriesManager.addQuery(
+        queryString = "128gb",
+        postSniper = postSniper,
+        notifier = telegramNotifier,
+        user = user,
+        queryTitle = "Test Query 2"
     )
     postSniper.process()
 

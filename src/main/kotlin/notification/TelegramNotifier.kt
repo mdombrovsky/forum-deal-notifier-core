@@ -11,7 +11,7 @@ class TelegramNotifier(val apiKey: String) : Notifier {
         token = apiKey
     }
 
-    suspend fun notify(user: User, queries: List<Query>, post: Post) {
+    override suspend fun notify(user: User, queries: List<Query>, post: Post) {
         val id = user.retrieveCredential(TelegramId::class.java)
         if (id == null) {
             throw UnsupportedOperationException("Telegram notifications not registered with user")
@@ -44,7 +44,7 @@ class TelegramNotifier(val apiKey: String) : Notifier {
         notify(user, listOf(query), post)
     }
 
-    suspend fun notify(user: User, post: Post) {
+    override suspend fun notify(user: User, post: Post) {
         notify(user, listOf(), post)
     }
 
