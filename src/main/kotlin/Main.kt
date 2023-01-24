@@ -25,7 +25,8 @@ suspend fun main(args: Array<String>) {
         queryString = "Sennheiser",
         postSniper = postSniper,
         notifier = telegramNotifier,
-        user = user
+        user = user,
+        queryTitle = "Test Query"
     )
     postSniper.process()
 

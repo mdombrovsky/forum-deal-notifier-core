@@ -43,11 +43,18 @@ class QueriesManager {
         }
     }
 
-    suspend fun addQuery(queryString: String, postSniper: PostSniper, user: User, notifier: Notifier) {
+    suspend fun addQuery(
+        queryString: String,
+        postSniper: PostSniper,
+        user: User,
+        notifier: Notifier,
+        queryTitle: String = ""
+    ) {
         val query = getQueryFrom(queryString)
         if (query == null) {
             throw UnsupportedOperationException("query not parsed properly")
         }
+        query.title = queryTitle
         query.onMatched = { post: Post ->
             notifier.notify(user, query, post)
         }

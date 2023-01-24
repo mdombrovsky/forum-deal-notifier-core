@@ -16,9 +16,14 @@ class TelegramNotifier(val apiKey: String) : Notifier {
         if (id == null) {
             throw UnsupportedOperationException("Telegram notifications not registered with user")
         } else {
+            val message = if (query.title.trim().isNotEmpty()) {
+                "Matched Query: ${query.title}\n\n${post.toPrettyString()}"
+            } else {
+                post.toPrettyString()
+            }
             bot.sendMessage(
                 chatId = ChatId.fromId(id.value.toLong()),
-                post.toPrettyString()
+                text = message
             )
         }
     }
