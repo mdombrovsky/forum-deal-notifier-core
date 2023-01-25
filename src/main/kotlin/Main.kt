@@ -26,15 +26,25 @@ suspend fun main(args: Array<String>) {
         postSniper = postSniper,
         notifier = telegramNotifier,
         user = user,
-        queryTitle = "Test Query"
+        queryTitle = "Test Query (Lenovo)"
     )
     user.queriesManager.addQuery(
         queryString = "128gb",
         postSniper = postSniper,
         notifier = telegramNotifier,
         user = user,
-        queryTitle = "Test Query 2"
+        queryTitle = "Test Query 2 (128gb)"
     )
-    postSniper.process()
-
+    user.queriesManager.addQuery(
+        queryString = "a | b",
+        postSniper = postSniper,
+        notifier = telegramNotifier,
+        user = user,
+        queryTitle = "All posts with a or b"
+    )
+    val manager = Manager(15).apply {
+        register(postSniper)
+        startPolling()
+        stopPolling()
+    }
 }
