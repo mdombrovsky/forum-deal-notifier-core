@@ -3,6 +3,7 @@ package post
 import Post
 import Query
 import notification.Notifier
+import query.getQueryFoundTitle
 import scraper.Scraper
 import user.User
 
@@ -44,12 +45,7 @@ class PostSniper(val scraper: Scraper) {
                 val user = triple.second
                 val notifier: Notifier = triple.third
 
-                if (matchedQueries[triple]!!.size == 1) {
-                    val query: Query = matchedQueries[triple]!![0]
-                    notifier.notify(user, query, post)
-                } else {
-                    notifier.notify(user, matchedQueries[triple]!!, post)
-                }
+                notifier.notify(user, post, getQueryFoundTitle(matchedQueries[triple]!!))
             }
         }
     }
