@@ -25,3 +25,6 @@ replay_pid*
 
 # api key files
 *.api
+
+# kotlin specific file to ignore
+*.kotlin_module
