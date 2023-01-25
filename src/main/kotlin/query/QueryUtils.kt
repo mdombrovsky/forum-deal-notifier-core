@@ -2,10 +2,10 @@ package query
 
 import Criteria
 import Keyword
-import Query
+import SimpleQuery
 
 // Parses string into query object
-fun getQueryFrom(contents: String): Query? {
+fun getSimpleQueryFrom(contents: String): SimpleQuery? {
 
     val query: Query
     var subStrings: List<String>
@@ -60,7 +60,7 @@ fun getQueryFrom(contents: String): Query? {
         keywordList = ArrayList()
     }
 
-    query = Query("", criteriaList)
+    query = SimpleQuery("", criteriaList)
     return query
 }
 

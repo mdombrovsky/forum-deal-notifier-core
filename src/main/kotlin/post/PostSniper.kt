@@ -1,8 +1,8 @@
 package post
 
 import Post
-import Query
 import notification.Notifier
+import query.Query
 import query.getQueryFoundTitle
 import scraper.Scraper
 import user.User

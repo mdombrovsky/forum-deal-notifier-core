@@ -1,6 +1,5 @@
 package query
 
-import Query
 import notification.Notifier
 import post.PostSniper
 import user.User
@@ -46,7 +45,7 @@ class QueriesManager {
         notifier: Notifier,
         queryTitle: String = ""
     ) {
-        val query = getQueryFrom(queryString)
+        val query = getSimpleQueryFrom(queryString)
         if (query == null) {
             throw UnsupportedOperationException("query not parsed properly")
         }
