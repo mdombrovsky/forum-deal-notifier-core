@@ -1,8 +1,9 @@
-package notification
+package notification.telegram
 
 import Post
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.entities.ChatId
+import notification.Notifier
 import user.User
 
 class TelegramNotifier(private val apiKey: String) : Notifier {

@@ -1,6 +1,7 @@
-import notification.TelegramId
-import notification.TelegramNotifier
+import notification.telegram.TelegramId
+import notification.telegram.TelegramNotifier
 import post.PostSniper
+import scraper.RSSScraper
 import scraper.Scraper
 import user.User
 import java.io.BufferedReader
@@ -9,8 +10,8 @@ import java.io.File
 
 suspend fun main(args: Array<String>) {
     val url = "https://forums.redflagdeals.com/feed/forum/9"
-//    val scraper: Scraper = RSSScraper(url)
-    val scraper: Scraper = RedditJSONScraper("all")
+    val scraper: Scraper = RSSScraper(url)
+//    val scraper: Scraper = RedditJSONScraper("all")
 
     val bufferedReader: BufferedReader = File("telegram_user.api").bufferedReader()
     val telegramUserId = bufferedReader.use { it.readText() }.trim()

@@ -1,3 +1,7 @@
+package query.simplequery
+
+import Post
+
 class Keyword(text: String = "") {
 
     var text: String = ""

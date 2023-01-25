@@ -1,3 +1,6 @@
+package query.simplequery
+
+import Post
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 

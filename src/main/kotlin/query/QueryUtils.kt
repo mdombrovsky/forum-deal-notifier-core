@@ -1,8 +1,8 @@
 package query
 
-import Criteria
-import Keyword
-import SimpleQuery
+import query.simplequery.Criteria
+import query.simplequery.Keyword
+import query.simplequery.SimpleQuery
 
 // Parses string into query object
 fun getSimpleQueryFrom(contents: String): SimpleQuery? {

@@ -1,3 +1,7 @@
+package scraper.custom
+
+import Post
+import SortedPostList
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
