@@ -6,7 +6,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import scraper.Scraper
-import java.net.URL
+import scraper.getData
 import java.util.*
 
 class RedditJSONScraper(private val subReddit: String) : Scraper() {
@@ -17,24 +17,6 @@ class RedditJSONScraper(private val subReddit: String) : Scraper() {
                 "https://www.reddit.com/r/${subReddit}/new.json?limit=100"
             )
         )
-    }
-
-    private fun getData(urlString: String): String {
-        val url = URL(urlString)
-        val response: String
-
-        response = try {
-            url.openConnection().apply {
-                setRequestProperty(
-                    "User-Agent",
-                    "9d42e38f-bebb-4a67-b45c-4968136bb534"
-                )
-            }.inputStream.bufferedReader().readText()
-        } catch (e: Exception) {
-            println(this.javaClass.simpleName + ": Error getting response: $e")
-            ""
-        }
-        return response
     }
 
 

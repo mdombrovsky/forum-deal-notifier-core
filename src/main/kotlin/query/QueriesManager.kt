@@ -2,6 +2,7 @@ package query
 
 import notification.Notifier
 import post.PostSniper
+import query.simplequery.getSimpleQueryFrom
 import user.User
 
 class QueriesManager {
