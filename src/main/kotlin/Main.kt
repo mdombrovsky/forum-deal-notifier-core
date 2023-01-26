@@ -1,17 +1,19 @@
+import notification.debug.PrintlnNotifier
 import notification.telegram.TelegramId
 import notification.telegram.TelegramNotifier
 import post.PostFinder
-import scraper.RSSScraper
 import scraper.Scraper
+import scraper.custom.RFDScraper
 import user.User
 import java.io.BufferedReader
 import java.io.File
 
 
 suspend fun main(args: Array<String>) {
-    val url = "https://forums.redflagdeals.com/feed/forum/9"
-    val scraper: Scraper = RSSScraper(url)
+//    val url = "https://forums.redflagdeals.com/feed/forum/9"
+//    val scraper: Scraper = RSSScraper(url)
 //    val scraper: Scraper = RedditJSONScraper("all")
+    val scraper: Scraper = RFDScraper()
 
     val bufferedReader: BufferedReader = File("telegram_user.api").bufferedReader()
     val telegramUserId = bufferedReader.use { it.readText() }.trim()
@@ -39,13 +41,14 @@ suspend fun main(args: Array<String>) {
     user.queriesManager.addQuery(
         queryString = "a | b",
         postFinder = postFinder,
-        notifier = telegramNotifier,
+        notifier = PrintlnNotifier(),
         user = user,
         queryTitle = "All posts with a or b"
     )
     val manager = Manager(15).apply {
         register(postFinder)
-        startPolling()
+//        startPolling()
 //        stopPolling()
+        process()
     }
 }
