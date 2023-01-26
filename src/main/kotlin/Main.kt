@@ -1,6 +1,6 @@
 import notification.telegram.TelegramId
 import notification.telegram.TelegramNotifier
-import post.PostSniper
+import post.PostFinder
 import scraper.RSSScraper
 import scraper.Scraper
 import user.User
@@ -21,30 +21,30 @@ suspend fun main(args: Array<String>) {
     val apiKey = bufferedReader2.use { it.readText() }.trim()
     val telegramNotifier = TelegramNotifier(apiKey)
 
-    val postSniper = PostSniper(scraper)
+    val postFinder = PostFinder(scraper)
     user.queriesManager.addQuery(
         queryString = "Lenovo",
-        postSniper = postSniper,
+        postFinder = postFinder,
         notifier = telegramNotifier,
         user = user,
         queryTitle = "Test Query (Lenovo)"
     )
     user.queriesManager.addQuery(
         queryString = "128gb",
-        postSniper = postSniper,
+        postFinder = postFinder,
         notifier = telegramNotifier,
         user = user,
         queryTitle = "Test Query 2 (128gb)"
     )
     user.queriesManager.addQuery(
         queryString = "a | b",
-        postSniper = postSniper,
+        postFinder = postFinder,
         notifier = telegramNotifier,
         user = user,
         queryTitle = "All posts with a or b"
     )
     val manager = Manager(15).apply {
-        register(postSniper)
+        register(postFinder)
         startPolling()
 //        stopPolling()
     }

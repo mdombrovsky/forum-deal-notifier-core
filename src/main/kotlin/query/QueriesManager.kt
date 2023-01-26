@@ -1,7 +1,7 @@
 package query
 
 import notification.Notifier
-import post.PostSniper
+import post.PostFinder
 import query.simplequery.getSimpleQueryFrom
 import user.User
 
@@ -10,7 +10,7 @@ class QueriesManager {
     private val queryData: HashMap<Query, Pair<User, Notifier>> = HashMap()
     val queries: List<Query> = queriesList
 
-    private val associatedScraper: HashMap<Query, PostSniper> = HashMap()
+    private val associatedScraper: HashMap<Query, PostFinder> = HashMap()
 
 
     private suspend fun addQuery(query: Query, user: User, notifier: Notifier): Boolean {
@@ -41,7 +41,7 @@ class QueriesManager {
 
     suspend fun addQuery(
         queryString: String,
-        postSniper: PostSniper,
+        postFinder: PostFinder,
         user: User,
         notifier: Notifier,
         queryTitle: String = ""
@@ -51,12 +51,12 @@ class QueriesManager {
             throw UnsupportedOperationException("query not parsed properly")
         }
         query.title = queryTitle
-        addQuery(query, postSniper, user, notifier)
+        addQuery(query, postFinder, user, notifier)
     }
 
-    suspend fun addQuery(query: Query, postSniper: PostSniper, user: User, notifier: Notifier) {
+    suspend fun addQuery(query: Query, postFinder: PostFinder, user: User, notifier: Notifier) {
         addQuery(query, user, notifier)
-        associatedScraper[query] = postSniper
-        postSniper.registerQuery(query, user, notifier)
+        associatedScraper[query] = postFinder
+        postFinder.registerQuery(query, user, notifier)
     }
 }

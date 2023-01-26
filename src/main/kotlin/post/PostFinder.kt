@@ -7,7 +7,7 @@ import query.getQueryFoundTitle
 import scraper.Scraper
 import user.User
 
-class PostSniper(val scraper: Scraper) {
+class PostFinder(val scraper: Scraper) {
     private data class DataQuery(val query: Query, val user: User, val notifier: Notifier)
 
     private val queryData: HashMap<Query, DataQuery> = HashMap()

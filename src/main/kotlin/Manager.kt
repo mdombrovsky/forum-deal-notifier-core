@@ -3,13 +3,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import post.PostSniper
+import post.PostFinder
 import java.util.*
 import kotlin.concurrent.fixedRateTimer
 
 class Manager(private val refreshIntervalSeconds: Int = 30) {
 
-    private val postSnipers: HashSet<PostSniper> = HashSet()
+    private val postFinders: HashSet<PostFinder> = HashSet()
     private val mutex: Mutex = Mutex()
     private var fixedRateTimer: Timer? = null
 
@@ -23,15 +23,15 @@ class Manager(private val refreshIntervalSeconds: Int = 30) {
         fixedRateTimer?.cancel()
     }
 
-    suspend fun register(postSniper: PostSniper) {
+    suspend fun register(postFinder: PostFinder) {
         mutex.withLock {
-            postSnipers.add(postSniper)
+            postFinders.add(postFinder)
         }
     }
 
-    suspend fun deregister(postSniper: PostSniper) {
+    suspend fun deregister(postFinder: PostFinder) {
         mutex.withLock {
-            postSnipers.remove(postSniper)
+            postFinders.remove(postFinder)
         }
     }
 
@@ -53,8 +53,8 @@ class Manager(private val refreshIntervalSeconds: Int = 30) {
 
     suspend fun process() {
         mutex.withLock {
-            for (postSniper in postSnipers) {
-                postSniper.process()
+            for (postFinder in postFinders) {
+                postFinder.process()
             }
         }
     }
