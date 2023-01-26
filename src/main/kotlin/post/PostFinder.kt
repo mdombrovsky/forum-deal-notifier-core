@@ -45,7 +45,7 @@ class PostFinder(val scraper: Scraper) {
                 val user = triple.second
                 val notifier: Notifier = triple.third
 
-                notifier.notify(user, post, getQueryFoundTitle(matchedQueries[triple]!!))
+                notifier.notify(user, post, matchedQueries[triple]!!.getQueryFoundTitle())
             }
         }
     }

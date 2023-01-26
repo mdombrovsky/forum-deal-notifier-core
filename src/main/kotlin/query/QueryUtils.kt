@@ -1,22 +1,21 @@
 package query
 
 
-fun getQueryFoundTitle(queries: List<Query>): String =
-    if (queries.isEmpty()) {
+fun List<Query>.getQueryFoundTitle(): String =
+    if (isEmpty()) {
         ""
-    } else if (queries.size == 1) {
-        getQueryFoundTitle(queries[0])
+    } else if (size == 1) {
+        get(0).getQueryFoundTitle()
     } else {
         val allQueryTitles: StringBuilder = StringBuilder()
-        for (i: Int in 0..queries.lastIndex) {
-            allQueryTitles.append(queries[i].title)
-            if (i != queries.lastIndex) {
+        for (i: Int in 0..lastIndex) {
+            allQueryTitles.append(get(i).title)
+            if (i != lastIndex) {
                 allQueryTitles.append(", ")
             }
         }
         "Matched Queries: $allQueryTitles"
     }
 
-
-fun getQueryFoundTitle(query: Query): String =
-    "Matched Query: ${query.title}"
+fun Query.getQueryFoundTitle(): String =
+    "Matched Query: $title"
