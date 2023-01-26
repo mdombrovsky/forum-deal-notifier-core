@@ -78,7 +78,7 @@ class Post(
     }
 
     fun toPrettyString(): String {
-        return "{$title}\n${url}"
+        return "$title\n${url}"
     }
 
 }
