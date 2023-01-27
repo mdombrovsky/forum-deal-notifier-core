@@ -2,20 +2,17 @@ package post
 
 import Post
 import notification.Notifier
+import query.ManagedQuery
 import query.Query
 import query.getQueryFoundTitle
 import scraper.Scraper
 import user.User
 
 class PostFinder(val scraper: Scraper) {
-    private data class DataQuery(val query: Query, val user: User, val notifier: Notifier)
-
-    private val queryData: HashMap<Query, DataQuery> = HashMap()
-    private val userQueries: HashMap<User, HashSet<DataQuery>> = HashMap()
-
+    private val userQueries: HashMap<User, HashSet<ManagedQuery>> = HashMap()
 
     suspend fun process() {
-        if (queryData.isEmpty()) {
+        if (userQueries.isEmpty()) {
             // Don't waste resources fetching if there is no point
             return
         }
@@ -50,23 +47,19 @@ class PostFinder(val scraper: Scraper) {
         }
     }
 
-    fun registerQuery(query: Query, user: User, notifier: Notifier) {
-        val dataQuery = DataQuery(query, user, notifier)
-        queryData[query] = dataQuery
-
+    fun registerQuery(query: ManagedQuery) {
+        val user = query.user
         if (!userQueries.containsKey(user)) {
             userQueries[user] = HashSet()
         }
-        userQueries[user]!!.add(dataQuery)
+        userQueries[user]!!.add(query)
     }
 
-    fun deregisterQuery(query: Query) {
-        val dataQuery = queryData[query]!!
-
-        queryData.remove(query)
-        userQueries[dataQuery.user]!!.remove(dataQuery)
-        if (userQueries[dataQuery.user]!!.isEmpty()) {
-            userQueries.remove(dataQuery.user)
+    fun deregisterQuery(query: ManagedQuery) {
+        val user = query.user
+        userQueries[user]!!.remove(query)
+        if (userQueries[user]!!.isEmpty()) {
+            userQueries.remove(user)
         }
     }
 }

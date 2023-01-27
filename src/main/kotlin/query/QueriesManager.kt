@@ -6,45 +6,23 @@ import query.simplequery.getSimpleQueryFrom
 import user.User
 
 class QueriesManager {
-    private val queriesList: ArrayList<Query> = ArrayList()
-    private val queryData: HashMap<Query, Pair<User, Notifier>> = HashMap()
-    val queries: List<Query> = queriesList
+    private val managedQueriesList: ArrayList<ManagedQuery> = ArrayList()
 
-    private val associatedScraper: HashMap<Query, PostFinder> = HashMap()
-
-
-    private suspend fun addQuery(query: Query, user: User, notifier: Notifier): Boolean {
-        val toReturn = queriesList.add(query)
-        if (toReturn) {
-            queryData[query] = Pair(user, notifier)
-        }
-        return toReturn
-    }
+    val queries: List<Query> = managedQueriesList
 
     private suspend fun removeQueryAt(index: Int): Query {
-        val query = queries[index]
-        queryData.remove(query)
-        associatedScraper[query]?.deregisterQuery(query)
-        associatedScraper.remove(query)
-        return queriesList.removeAt(index)
+        val query = managedQueriesList[index]
+        query.enabled = false
+        return managedQueriesList.removeAt(index)
     }
 
-    suspend fun enableQueryAt(index: Int, enabled: Boolean) {
-        val query = queries[index]
+    fun enableQueryAt(index: Int, enabled: Boolean) {
+        val query = managedQueriesList[index]
         query.enabled = enabled
-        if (enabled) {
-            associatedScraper[query]?.registerQuery(query, queryData[query]!!.first, queryData[query]!!.second)
-        } else {
-            associatedScraper[query]?.deregisterQuery(query)
-        }
     }
 
-    suspend fun addQuery(
-        queryString: String,
-        postFinder: PostFinder,
-        user: User,
-        notifier: Notifier,
-        queryTitle: String = ""
+    fun addQuery(
+        queryString: String, postFinder: PostFinder, user: User, notifier: Notifier, queryTitle: String = ""
     ) {
         val query = getSimpleQueryFrom(queryString)
         if (query == null) {
@@ -54,9 +32,10 @@ class QueriesManager {
         addQuery(query, postFinder, user, notifier)
     }
 
-    suspend fun addQuery(query: Query, postFinder: PostFinder, user: User, notifier: Notifier) {
-        addQuery(query, user, notifier)
-        associatedScraper[query] = postFinder
-        postFinder.registerQuery(query, user, notifier)
+    fun addQuery(query: Query, postFinder: PostFinder, user: User, notifier: Notifier) {
+        val managedQuery = ManagedQuery(
+            query = query, user = user, postFinder = postFinder, notifier = notifier, enabled = true
+        )
+        managedQueriesList.add(managedQuery)
     }
 }

@@ -2,6 +2,7 @@ import notification.stdout.PrintlnNotifier
 import notification.telegram.TelegramId
 import notification.telegram.TelegramNotifier
 import post.PostFinder
+import query.universal.MatchAll
 import scraper.Scraper
 import scraper.custom.RFDScraper
 import user.User
@@ -45,6 +46,13 @@ suspend fun main(args: Array<String>) {
         user = user,
         queryTitle = "All posts with a or b"
     )
+    user.queriesManager.addQuery(
+        query = MatchAll(),
+        postFinder = postFinder,
+        notifier = PrintlnNotifier(),
+        user = user
+    )
+
     val manager = Manager(15).apply {
         register(postFinder)
 //        startPolling()

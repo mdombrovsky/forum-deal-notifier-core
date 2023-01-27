@@ -10,8 +10,7 @@ import query.Query
  */
 class SimpleQuery(
     override var title: String = "",
-    criteriaInput: ArrayList<Criteria> = ArrayList(),
-    override var enabled: Boolean = true,
+    criteriaInput: ArrayList<Criteria> = ArrayList()
 ) : Query {
 
 
@@ -37,9 +36,6 @@ class SimpleQuery(
 
     override suspend fun matches(post: Post): Boolean {
         mutex.withLock {
-            if (!enabled) {
-                return false
-            }
             for (criteria: Criteria in this.criteriaArrayList) {
                 if (!criteria.matches(post)) {
                     return false
