@@ -1,4 +1,4 @@
-import notification.debug.PrintlnNotifier
+import notification.stdout.PrintlnNotifier
 import notification.telegram.TelegramId
 import notification.telegram.TelegramNotifier
 import post.PostFinder

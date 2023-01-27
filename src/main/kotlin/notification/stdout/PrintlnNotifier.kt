@@ -1,4 +1,4 @@
-package notification.debug
+package notification.stdout
 
 import Post
 import notification.Notifier
