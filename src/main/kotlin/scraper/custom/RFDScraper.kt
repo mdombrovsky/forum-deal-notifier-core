@@ -67,7 +67,7 @@ class RFDScraper(private val category: Int = 0) : Scraper() {
     }
 
     private fun createRfdPost(htmlPost: Element): Post {
-        val aTag = htmlPost.getElementsByTag("h3")[0].getElementsByTag("a").last()
+        val aTags = htmlPost.getElementsByTag("h3")[0].getElementsByTag("a")
 
         //Note: This has been a source of bugs in the past because it would not account for daylight saving time, I have attempted to remedy it
         //The regex is there for greatly simplifying date parsing
@@ -75,13 +75,21 @@ class RFDScraper(private val category: Int = 0) : Scraper() {
             .replace("(?<=\\d)(rd|st|nd|th)\\b,".toRegex(), "") + " ${getTimeZoneOffset()}"
 
 
-        val id = aTag!!.attr("href")
+        val sourceATag = aTags.getOrNull(aTags.lastIndex - 1)
+
+        val titleATag = aTags.last()
+        val id = titleATag!!.attr("href")
 
         val simpleDateFormat = SimpleDateFormat("MMM dd yyyy hh:mm a z", Locale.ENGLISH)
         val date = simpleDateFormat.parse(dateString)
 
+        val title = if (sourceATag != null) {
+            sourceATag.text() + ": " + titleATag.text()
+        } else {
+            titleATag.text()
+        }
         return Post(
-            title = aTag.text(),
+            title = title,
             url = "https://forums.redflagdeals.com/$id",
             date = date,
             source = "RedFlagDeals: Hot Deals"
