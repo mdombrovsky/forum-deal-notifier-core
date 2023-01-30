@@ -1,37 +1,19 @@
 package query.simplequery
 
 import Post
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 
-class Criteria(keywordsInput: ArrayList<Keyword> = ArrayList()) {
+class Criteria(keywordsInput: ArrayList<Keyword>) {
 
     private val keywordsArrayList: ArrayList<Keyword> = keywordsInput
-    val keywords: List<Keyword> = keywordsArrayList
+    private val keywords: List<Keyword> = keywordsArrayList
 
-    private val mutex: Mutex = Mutex()
-
-    suspend fun matches(post: Post): Boolean {
-        mutex.withLock {
-            for (keyword: Keyword in keywordsArrayList) {
-                if (keyword.matches(post)) {
-                    return true
-                }
+    fun matches(post: Post): Boolean {
+        for (keyword: Keyword in keywordsArrayList) {
+            if (keyword.matches(post)) {
+                return true
             }
         }
         return false
-    }
-
-    suspend fun addKeyword(keyword: Keyword): Boolean {
-        mutex.withLock {
-            return keywordsArrayList.add(keyword)
-        }
-    }
-
-    suspend fun removeKeywordAt(index: Int): Keyword {
-        mutex.withLock {
-            return keywordsArrayList.removeAt(index)
-        }
     }
 
     fun getCriteriaDescription(): String {

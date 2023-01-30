@@ -17,7 +17,7 @@ class Keyword(text: String = "") {
         this.text = text
     }
 
-    suspend fun matches(post: Post): Boolean {
+    fun matches(post: Post): Boolean {
         return post.searchNoSpacesLowerCase(textNoSpacesLowerCase)
     }
 

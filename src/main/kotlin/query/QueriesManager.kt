@@ -10,7 +10,7 @@ class QueriesManager {
 
     val queries: List<Query> = managedQueriesList
 
-    private suspend fun removeQueryAt(index: Int): Query {
+    fun removeQueryAt(index: Int): Query {
         val query = managedQueriesList[index]
         query.enabled = false
         return managedQueriesList.removeAt(index)
@@ -24,10 +24,7 @@ class QueriesManager {
     fun addQuery(
         queryString: String, postFinder: PostFinder, user: User, notifier: Notifier, queryTitle: String = ""
     ) {
-        val query = getSimpleQueryFrom(queryString)
-        if (query == null) {
-            throw UnsupportedOperationException("query not parsed properly")
-        }
+        val query = getSimpleQueryFrom(queryString) ?: throw UnsupportedOperationException("query not parsed properly")
         query.title = queryTitle
         addQuery(query, postFinder, user, notifier)
     }

@@ -1,8 +1,6 @@
 package query.simplequery
 
 import Post
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import query.Query
 
 /***
@@ -10,13 +8,12 @@ import query.Query
  */
 class SimpleQuery(
     override var title: String = "",
-    criteriaInput: ArrayList<Criteria> = ArrayList()
+    criteriaInput: ArrayList<Criteria>
 ) : Query {
 
 
-    private val mutex: Mutex = Mutex()
     private val criteriaArrayList: ArrayList<Criteria> = criteriaInput
-    val criteria: List<Criteria> = criteriaArrayList
+    private val criteria: List<Criteria> = criteriaArrayList
     var queryDescription: String = regenDescription()
         private set
 
@@ -35,26 +32,12 @@ class SimpleQuery(
     }
 
     override suspend fun matches(post: Post): Boolean {
-        mutex.withLock {
-            for (criteria: Criteria in this.criteriaArrayList) {
-                if (!criteria.matches(post)) {
-                    return false
-                }
+        for (criteria: Criteria in this.criteriaArrayList) {
+            if (!criteria.matches(post)) {
+                return false
             }
-            return true
         }
+        return true
 
-    }
-
-    suspend fun addCriteria(criteria: Criteria): Boolean {
-        mutex.withLock {
-            return criteriaArrayList.add(criteria)
-        }
-    }
-
-    suspend fun removeCriteriaAt(index: Int): Criteria {
-        mutex.withLock {
-            return criteriaArrayList.removeAt(index)
-        }
     }
 }
