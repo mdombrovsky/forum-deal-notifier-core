@@ -25,21 +25,21 @@ suspend fun main(args: Array<String>) {
     val telegramNotifier = TelegramNotifier(apiKey)
 
     val postFinder = PostFinder(scraper)
-    user.queriesManager.addQuery(
+    user.queriesManager.addSimpleQuery(
         queryString = "Lenovo",
         postFinder = postFinder,
         notifier = telegramNotifier,
         user = user,
         queryTitle = "Test Query (Lenovo)"
     )
-    user.queriesManager.addQuery(
+    user.queriesManager.addSimpleQuery(
         queryString = "128gb",
         postFinder = postFinder,
         notifier = telegramNotifier,
         user = user,
         queryTitle = "Test Query 2 (128gb)"
     )
-    user.queriesManager.addQuery(
+    user.queriesManager.addSimpleQuery(
         queryString = "a | b",
         postFinder = postFinder,
         notifier = PrintlnNotifier(),

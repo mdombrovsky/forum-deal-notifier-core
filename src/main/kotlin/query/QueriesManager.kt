@@ -21,7 +21,7 @@ class QueriesManager {
         query.enabled = enabled
     }
 
-    fun addQuery(
+    fun addSimpleQuery(
         queryString: String, postFinder: PostFinder, user: User, notifier: Notifier, queryTitle: String = ""
     ) {
         val query = getSimpleQueryFrom(queryString) ?: throw UnsupportedOperationException("query not parsed properly")
