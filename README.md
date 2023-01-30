@@ -1,10 +1,20 @@
 # RSS Sniper library
 
+#### A library for reading a continuous stream of posts (such as RSS) and notifying users of ones that match their interests
+
 ## Description WIP
+
+This is meant of a way to alert a user of posts that match queries that can be set.
+
+Users can be notified of alerts that are triggered through:
+
+- Telegram
 
 ## Usage: WIP
 
-## Examples: WIP
+## Examples
+
+Examples of how to use this can be found in the /src/main/kotlin/examples folder
 
 ## Q&A
 
@@ -25,3 +35,6 @@ Just implement the Scraper interface, a good example of that is the RedditJSONSc
 ## Contribution
 
 Contribution is always welcome, feel free to create a pull request
+
+Note: Most of this code was taken from a previous app project that was written years
+ago: https://github.com/mdombrovsky/deals-notifier
