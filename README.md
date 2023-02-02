@@ -10,6 +10,12 @@ Users can be notified of alerts that are triggered through:
 
 - Telegram
 
+## Limitations
+
+This can only work on sequential RSS/other post feeds, as it uses the published date to keep track of already shown posts.
+
+**If the published date is missing or not sorted, such as a RSS feed for popular posts, this will not work**
+
 ## Usage: WIP
 
 ## Examples
