@@ -1,15 +1,17 @@
+package post
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import post.PostFinder
+import scraper.Scraper
 import java.util.*
 import kotlin.concurrent.fixedRateTimer
 
-class Manager(private val refreshIntervalSeconds: Int = 30) {
+class PostFinderManager(private val refreshIntervalSeconds: Int = 30) : PostFinderAllocator {
 
-    private val postFinders: HashSet<PostFinder> = HashSet()
+    private val postFinders: HashMap<Scraper, PostFinder> = HashMap()
     private val mutex: Mutex = Mutex()
     private var fixedRateTimer: Timer? = null
 
@@ -21,18 +23,6 @@ class Manager(private val refreshIntervalSeconds: Int = 30) {
 
     fun stopPolling() {
         fixedRateTimer?.cancel()
-    }
-
-    suspend fun register(postFinder: PostFinder) {
-        mutex.withLock {
-            postFinders.add(postFinder)
-        }
-    }
-
-    suspend fun deregister(postFinder: PostFinder) {
-        mutex.withLock {
-            postFinders.remove(postFinder)
-        }
     }
 
     /* creates a timer that executes generateNotificationTask once time is up */
@@ -53,9 +43,18 @@ class Manager(private val refreshIntervalSeconds: Int = 30) {
 
     suspend fun process() {
         mutex.withLock {
-            for (postFinder in postFinders) {
+            for (postFinder in postFinders.values) {
                 postFinder.process()
             }
         }
+    }
+
+    override suspend fun getPostFinder(scraper: Scraper): PostFinder {
+        mutex.withLock {
+            if (!postFinders.containsKey(scraper)) {
+                postFinders[scraper] = PostFinder(scraper)
+            }
+        }
+        return postFinders[scraper]!!
     }
 }

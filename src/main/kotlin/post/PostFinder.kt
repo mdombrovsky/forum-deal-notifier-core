@@ -8,10 +8,10 @@ import query.getQueryFoundTitle
 import scraper.Scraper
 import user.User
 
-class PostFinder(val scraper: Scraper) {
+class PostFinder internal constructor(val scraper: Scraper) {
     private val userQueries: HashMap<User, HashSet<ManagedQuery>> = HashMap()
 
-    suspend fun process() {
+    internal suspend fun process() {
         if (userQueries.isEmpty()) {
             // Don't waste resources fetching if there is no point
             return
@@ -47,7 +47,7 @@ class PostFinder(val scraper: Scraper) {
         }
     }
 
-    fun registerQuery(query: ManagedQuery) {
+    internal fun registerQuery(query: ManagedQuery) {
         val user = query.user
         if (!userQueries.containsKey(user)) {
             userQueries[user] = HashSet()
@@ -55,7 +55,7 @@ class PostFinder(val scraper: Scraper) {
         userQueries[user]!!.add(query)
     }
 
-    fun deregisterQuery(query: ManagedQuery) {
+    internal fun deregisterQuery(query: ManagedQuery) {
         val user = query.user
         userQueries[user]!!.remove(query)
         if (userQueries[user]!!.isEmpty()) {
