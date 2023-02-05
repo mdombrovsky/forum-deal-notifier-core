@@ -14,7 +14,7 @@ suspend fun main(args: Array<String>) {
 //    val url = "https://forums.redflagdeals.com/feed/forum/9"
 //    val scraper: Scraper = RSSScraper(url)
 //    val scraper: Scraper = RedditJSONScraper("all")
-    val manager = PostFinderManager(15)
+    val manager = PostFinderManager()
 
     val scraper: Scraper = RFDScraper()
 

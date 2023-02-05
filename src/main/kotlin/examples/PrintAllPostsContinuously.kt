@@ -8,7 +8,7 @@ import java.net.URL
 
 
 suspend fun main() {
-    val manager = PostFinderManager(60)
+    val manager = PostFinderManager()
 
     // This uses SlickDeals RSS feed to alert you of new deals
     val scraper: Scraper =
@@ -25,5 +25,5 @@ suspend fun main() {
     )
 
     // This will refresh the rss feed for new posts every 60 seconds
-    manager.startPolling()
+    manager.startPolling(60)
 }

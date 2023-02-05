@@ -11,7 +11,7 @@ import user.User
  *      args[1]: telegram user message id
  */
 suspend fun main(args: Array<String>) {
-    val manager = PostFinderManager(60)
+    val manager = PostFinderManager()
 
     val scraper: Scraper = RFDScraper()
 

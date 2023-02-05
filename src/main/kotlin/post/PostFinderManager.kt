@@ -9,14 +9,14 @@ import scraper.Scraper
 import java.util.*
 import kotlin.concurrent.fixedRateTimer
 
-class PostFinderManager(private val refreshIntervalSeconds: Int = 30) : PostFinderAllocator {
+class PostFinderManager : PostFinderAllocator {
 
     private val postFinders: HashMap<Scraper, PostFinder> = HashMap()
     private val mutex: Mutex = Mutex()
     private var fixedRateTimer: Timer? = null
 
 
-    fun startPolling() {
+    fun startPolling(refreshIntervalSeconds: Int = 30) {
         stopPolling()
         fixedRateTimer = createFixedRateTimerForRefresh(refreshIntervalSeconds)
     }
