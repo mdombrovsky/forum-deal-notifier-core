@@ -49,12 +49,18 @@ class PostFinderManager(private val refreshIntervalSeconds: Int = 30) : PostFind
         }
     }
 
-    override suspend fun getPostFinder(scraper: Scraper): PostFinder {
-        mutex.withLock {
-            if (!postFinders.containsKey(scraper)) {
-                postFinders[scraper] = PostFinder(scraper)
+    override fun getPostFinder(scraper: Scraper): PostFinder {
+        return if (postFinders.containsKey(scraper)) {
+            postFinders[scraper]!!
+        } else {
+            val newPostFinder = PostFinder(scraper)
+            CoroutineScope(Dispatchers.IO).launch {
+                // Prevent modify while iterating error
+                mutex.withLock {
+                    postFinders[scraper] = newPostFinder
+                }
             }
+            newPostFinder
         }
-        return postFinders[scraper]!!
     }
 }

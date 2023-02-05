@@ -11,7 +11,7 @@ class TelegramNotifier(private val apiKey: String) : Notifier {
         token = apiKey
     }
 
-    override suspend fun notify(user: User, post: Post, title: String) {
+    override fun notify(user: User, post: Post, title: String) {
         val id = user.retrieveCredential(TelegramId::class.java)
         if (id == null) {
             throw UnsupportedOperationException("Telegram notifications not registered with user")
@@ -20,7 +20,7 @@ class TelegramNotifier(private val apiKey: String) : Notifier {
         }
     }
 
-    private suspend fun notify(id: Long, title: String = "", postDescription: String) {
+    private fun notify(id: Long, title: String = "", postDescription: String) {
         bot.sendMessage(
             chatId = ChatId.fromId(id),
             text = if (title.trim().isNotEmpty()) {
