@@ -31,7 +31,7 @@ class SimpleQuery(
 
     }
 
-    override suspend fun matches(post: Post): Boolean {
+    override fun matches(post: Post): Boolean {
         for (criteria: Criteria in this.criteriaArrayList) {
             if (!criteria.matches(post)) {
                 return false

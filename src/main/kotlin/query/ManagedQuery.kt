@@ -30,7 +30,7 @@ class ManagedQuery(
 
     override var title: String = query.title
 
-    override suspend fun matches(post: Post): Boolean {
+    override fun matches(post: Post): Boolean {
         return query.matches(post)
     }
 }
