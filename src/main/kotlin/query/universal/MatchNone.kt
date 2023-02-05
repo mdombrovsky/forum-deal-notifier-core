@@ -4,7 +4,6 @@ import Post
 import query.Query
 
 class MatchNone(override var title: String = "Match no posts") : Query {
-    override fun matches(post: Post): Boolean {
-        return false
-    }
+    override fun getSearchTerms(): String = "NONE"
+    override fun matches(post: Post): Boolean = false
 }

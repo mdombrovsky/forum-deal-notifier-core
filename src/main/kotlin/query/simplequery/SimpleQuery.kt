@@ -11,12 +11,10 @@ class SimpleQuery(
     criteriaInput: ArrayList<Criteria>
 ) : Query {
 
-
     private val criteriaArrayList: ArrayList<Criteria> = criteriaInput
     private val criteria: List<Criteria> = criteriaArrayList
-    var queryDescription: String = regenDescription()
-        private set
 
+    override fun getSearchTerms(): String = regenDescription()
 
     private fun regenDescription(): String {
 

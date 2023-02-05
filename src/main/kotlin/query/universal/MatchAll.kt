@@ -4,7 +4,6 @@ import Post
 import query.Query
 
 class MatchAll(override var title: String = "Match all posts") : Query {
-    override fun matches(post: Post): Boolean {
-        return true
-    }
+    override fun getSearchTerms(): String = "ALL"
+    override fun matches(post: Post): Boolean = true
 }
