@@ -6,8 +6,7 @@ import com.rometools.rome.io.SyndFeedInput
 import com.rometools.rome.io.XmlReader
 import java.net.URL
 
-class RSSScraper(url: String) : Scraper() {
-    private val url = URL(url)
+class RSSScraper(private val url: URL) : Scraper() {
 
     override suspend fun getAllPosts(): SortedPostList {
         val posts = SortedPostList()

@@ -5,6 +5,7 @@ import scraper.RSSScraper
 import scraper.Scraper
 import scraper.custom.RFDScraper
 import user.User
+import java.net.URL
 
 
 suspend fun main() {
@@ -12,7 +13,7 @@ suspend fun main() {
 
     // This uses SlickDeals RSS feed to alert you of new deals
     val scraper1: Scraper =
-        RSSScraper("https://slickdeals.net/newsearch.php?mode=frontpage&searcharea=deals&searchin=first&rss=1")
+        RSSScraper(URL("https://slickdeals.net/newsearch.php?mode=frontpage&searcharea=deals&searchin=first&rss=1"))
     val scraper2: Scraper = RFDScraper()
     val user = User("John")
 

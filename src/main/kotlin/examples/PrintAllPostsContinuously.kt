@@ -4,6 +4,7 @@ import query.universal.MatchAll
 import scraper.RSSScraper
 import scraper.Scraper
 import user.User
+import java.net.URL
 
 
 suspend fun main() {
@@ -11,7 +12,7 @@ suspend fun main() {
 
     // This uses SlickDeals RSS feed to alert you of new deals
     val scraper: Scraper =
-        RSSScraper("https://slickdeals.net/newsearch.php?mode=frontpage&searcharea=deals&searchin=first&rss=1")
+        RSSScraper(URL("https://slickdeals.net/newsearch.php?mode=frontpage&searcharea=deals&searchin=first&rss=1"))
 
     val user = User("John")
 
