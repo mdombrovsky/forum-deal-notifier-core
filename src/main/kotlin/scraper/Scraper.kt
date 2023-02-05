@@ -47,4 +47,9 @@ abstract class Scraper : Serializable {
         mostRecentPostDate = null
     }
 
+    /**
+     * Get the configuration string so the scraper can be rebuilt
+     */
+    abstract fun getConfig(): String
+
 }

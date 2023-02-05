@@ -110,4 +110,8 @@ class RFDScraper(private val category: Int = 0) : Scraper() {
     override fun hashCode(): Int {
         return category
     }
+
+    override fun getConfig(): String {
+        return category.toString()
+    }
 }

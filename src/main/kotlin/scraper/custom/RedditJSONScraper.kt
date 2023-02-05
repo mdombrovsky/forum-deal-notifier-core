@@ -86,4 +86,8 @@ class RedditJSONScraper(private val subReddit: String) : Scraper() {
     override fun hashCode(): Int {
         return subReddit.hashCode()
     }
+
+    override fun getConfig(): String {
+        return subReddit
+    }
 }

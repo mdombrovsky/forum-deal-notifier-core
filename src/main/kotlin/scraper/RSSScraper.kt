@@ -38,4 +38,8 @@ class RSSScraper(url: String) : Scraper() {
     override fun hashCode(): Int {
         return url.hashCode()
     }
+
+    override fun getConfig(): String {
+        return url.toString()
+    }
 }
