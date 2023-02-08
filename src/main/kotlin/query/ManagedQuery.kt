@@ -1,6 +1,5 @@
 package query
 
-import Post
 import notification.Notifier
 import post.PostFinder
 import user.User
@@ -11,7 +10,7 @@ class ManagedQuery(
     val postFinder: PostFinder,
     val notifier: Notifier,
     enabled: Boolean = false
-) : Query {
+) {
     var enabled: Boolean = enabled
         set(value) {
             if (value) {
@@ -27,10 +26,4 @@ class ManagedQuery(
             postFinder.registerQuery(this)
         }
     }
-
-    override var title: String = query.title
-
-    override fun matches(post: Post): Boolean = query.matches(post)
-
-    override fun getSearchTerms(): String = query.getSearchTerms()
 }

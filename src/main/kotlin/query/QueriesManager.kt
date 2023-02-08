@@ -8,12 +8,12 @@ import user.User
 class QueriesManager {
     private val managedQueriesList: ArrayList<ManagedQuery> = ArrayList()
 
-    val queries: List<Query> = managedQueriesList
+    val queries: List<ManagedQuery> = managedQueriesList
 
     fun removeQueryAt(index: Int): Query {
         val query = managedQueriesList[index]
         query.enabled = false
-        return managedQueriesList.removeAt(index)
+        return managedQueriesList.removeAt(index).query
     }
 
     fun enableQueryAt(index: Int, enabled: Boolean) {
