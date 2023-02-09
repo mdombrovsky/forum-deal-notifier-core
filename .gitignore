@@ -28,6 +28,3 @@ replay_pid*
 
 # kotlin specific file to ignore
 *.kotlin_module
-
-# remove build scripts during development
-*jar.xml
