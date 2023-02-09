@@ -25,5 +25,5 @@ suspend fun main() {
     )
 
     // This will refresh the rss feed for new posts every 60 seconds
-    manager.startPolling(60)
+    manager.startPollingForNewPosts(60)
 }

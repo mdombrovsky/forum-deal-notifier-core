@@ -16,8 +16,11 @@ class PostFinderManager : PostFinderAllocator {
     private var fixedRateTimer: Timer? = null
 
 
-    fun startPolling(refreshIntervalSeconds: Int = 30) {
+    fun startPollingForNewPosts(refreshIntervalSeconds: Int = 30) {
         stopPolling()
+        CoroutineScope(Dispatchers.IO).launch {
+            process(discardPosts = true)
+        }
         fixedRateTimer = createFixedRateTimerForRefresh(refreshIntervalSeconds)
     }
 
@@ -31,7 +34,7 @@ class PostFinderManager : PostFinderAllocator {
                 fixedRateTimer(
                     "RSS-Sniper-Refresh-Timer",
                     false,
-                    0,
+                    secondsInterval * 1000.toLong(),
                     secondsInterval * 1000.toLong()
                 ) {
                     CoroutineScope(Dispatchers.IO).launch {
@@ -41,10 +44,10 @@ class PostFinderManager : PostFinderAllocator {
                 )
     }
 
-    suspend fun process() {
+    suspend fun process(discardPosts: Boolean = false) {
         mutex.withLock {
             for (postFinder in postFinders.values) {
-                postFinder.process()
+                postFinder.process(discardPosts)
             }
         }
     }

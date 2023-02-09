@@ -35,5 +35,5 @@ suspend fun main(args: Array<String>) {
         queryTitle = "All Amazon deals"
     )
 
-    manager.startPolling()
+    manager.startPollingForNewPosts()
 }
