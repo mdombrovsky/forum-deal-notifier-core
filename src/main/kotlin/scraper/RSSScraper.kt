@@ -5,6 +5,7 @@ import SortedPostList
 import com.rometools.rome.io.SyndFeedInput
 import com.rometools.rome.io.XmlReader
 import java.net.URL
+import java.util.*
 
 class RSSScraper(private val url: URL) : Scraper() {
 
@@ -16,7 +17,9 @@ class RSSScraper(private val url: URL) : Scraper() {
                 Post(title = entry.title, url = entry.link, date = entry.publishedDate, source = feed.title)
             )
         }
-        return posts
+        return posts.apply {
+            println("Time: ${Date()}, RSS Scraper, Retrieved ${this.size} posts, last post: ${this.getOrNull(0)?.title}")
+        }
     }
 
     override fun getName(): String {

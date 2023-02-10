@@ -16,7 +16,9 @@ class RedditJSONScraper(private val subReddit: String) : Scraper() {
             getData(
                 "https://www.reddit.com/r/${subReddit}/new.json?limit=100"
             )
-        )
+        ).apply {
+            println("Time: ${Date()}, Reddit Scraper, Retrieved ${this.size} posts, last post: ${this.getOrNull(0)?.title}")
+        }
     }
 
 

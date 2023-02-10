@@ -23,7 +23,9 @@ class RFDScraper(private val category: Int = 0) : Scraper() {
         baseURL + dealListURL + searchFilterURL + categoryPrefixURL + category.toString()
 
     override suspend fun getAllPosts(): SortedPostList {
-        return getPosts(defaultURL)
+        return getPosts(defaultURL).apply {
+            println("Time: ${Date()}, RFD Scraper, Retrieved ${this.size} posts, last post: ${this.getOrNull(0)?.title}")
+        }
     }
 
     override fun getName(): String {
