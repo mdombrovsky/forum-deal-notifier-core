@@ -52,4 +52,11 @@ abstract class Scraper : Serializable {
      */
     abstract fun getConfig(): String
 
+
+    /**
+     * Verify that the scraper is working properly
+     */
+    suspend fun verify(): Boolean {
+        return getAllPosts().size > 0
+    }
 }

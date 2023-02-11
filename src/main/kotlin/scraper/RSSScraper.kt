@@ -13,9 +13,13 @@ class RSSScraper(private val url: URL) : Scraper() {
         val posts = SortedPostList()
         val feed = SyndFeedInput().build(XmlReader(url))
         for (entry in feed.entries) {
-            posts.add(
-                Post(title = entry.title, url = entry.link, date = entry.publishedDate, source = feed.title)
-            )
+            try {
+                posts.add(
+                    Post(title = entry.title, url = entry.link, date = entry.publishedDate, source = feed.title)
+                )
+            } catch (e: Exception) {
+                println("Unable to capture RSS post, in ${this.getName()}")
+            }
         }
         return posts.apply {
             println("Time: ${Date()}, RSS Scraper, Retrieved ${this.size} posts, last post: ${this.getOrNull(0)?.title}")
