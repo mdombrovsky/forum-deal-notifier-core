@@ -3,6 +3,7 @@ package post
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import scraper.Scraper
@@ -18,14 +19,16 @@ class PostFinderManager : PostFinderAllocator {
 
     fun startPollingForNewPosts(refreshIntervalSeconds: Int = 30) {
         stopPolling()
-        CoroutineScope(Dispatchers.IO).launch {
-            process(discardPosts = true)
-        }
         fixedRateTimer = createFixedRateTimerForRefresh(refreshIntervalSeconds)
     }
 
     fun stopPolling() {
         fixedRateTimer?.cancel()
+        fixedRateTimer = null
+    }
+
+    fun isPolling(): Boolean {
+        return fixedRateTimer != null
     }
 
     /* creates a timer that executes generateNotificationTask once time is up */
@@ -34,7 +37,7 @@ class PostFinderManager : PostFinderAllocator {
                 fixedRateTimer(
                     "RSS-Sniper-Refresh-Timer",
                     false,
-                    secondsInterval * 1000.toLong(),
+                    0,
                     secondsInterval * 1000.toLong()
                 ) {
                     CoroutineScope(Dispatchers.IO).launch {
@@ -44,23 +47,36 @@ class PostFinderManager : PostFinderAllocator {
                 )
     }
 
-    suspend fun process(discardPosts: Boolean = false) {
+    suspend fun process(debugUseOldPosts: Boolean = false) {
         mutex.withLock {
             for (postFinder in postFinders.values) {
-                postFinder.process(discardPosts)
+                postFinder.process(debugUseOldPosts)
             }
         }
     }
 
-    override fun getPostFinder(scraper: Scraper): PostFinder {
+    override fun getPostFinder(scraper: Scraper, runBlocking: Boolean): PostFinder {
         return if (postFinders.containsKey(scraper)) {
             postFinders[scraper]!!
         } else {
             val newPostFinder = PostFinder(scraper)
-            CoroutineScope(Dispatchers.IO).launch {
+            val addPostFinderTask: suspend () -> Unit = {
                 // Prevent modify while iterating error
                 mutex.withLock {
                     postFinders[scraper] = newPostFinder
+                }
+            }
+            when {
+                runBlocking -> {
+                    runBlocking {
+                        addPostFinderTask.invoke()
+                    }
+                }
+
+                else -> {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        addPostFinderTask.invoke()
+                    }
                 }
             }
             newPostFinder

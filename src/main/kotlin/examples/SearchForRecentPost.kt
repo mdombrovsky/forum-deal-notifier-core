@@ -17,12 +17,14 @@ suspend fun main() {
     // MatchAll is a simple query that matches all posts, mostly used for debugging
     user.queriesManager.addSimpleQuery(
         queryString = "SSD",
-        postFinder = manager.getPostFinder(scraper),
+        // This uses a mutex to register the post finder under the hood
+        // So use option parameter runBlocking only for debug/demo purposes
+        postFinder = manager.getPostFinder(scraper, runBlocking = true),
         notifier = PrintlnNotifier(),
         user = user,
         queryTitle = "SSD Search"
     )
 
-    // This will search the rss feed once
-    manager.process()
+    // This will search the rss feed once, including old posts
+    manager.process(debugUseOldPosts = true)
 }
