@@ -1,19 +1,26 @@
 package scraper
 
+import java.io.InputStream
 import java.net.URL
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-fun getData(urlString: String, userAgent: String = "9d42e38f-bebb-4a67-b45c-4968136bb534"): String {
+fun URL.getInputSteam(userAgent: String = "9d42e38f-bebb-4a67-b45c-4968136bb534"): InputStream {
+    return this.openConnection().apply {
+        setRequestProperty(
+            "User-Agent",
+            userAgent
+        )
+        connectTimeout = 5000
+        readTimeout = 5000
+    }.inputStream
+}
+
+fun getData(urlString: String): String {
     val url = URL(urlString)
 
     val response: String = try {
-        url.openConnection().apply {
-            setRequestProperty(
-                "User-Agent",
-                userAgent
-            )
-        }.inputStream.bufferedReader().readText()
+        url.getInputSteam().bufferedReader().readText()
     } catch (e: Exception) {
         println("URL: ${urlString}, Error getting response: $e")
         ""
