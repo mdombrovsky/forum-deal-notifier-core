@@ -1,28 +1,23 @@
 package scraper
 
-import SortedPostList
+import Post
+import utils.MaxSizeHashSet
 import java.io.Serializable
-import java.util.*
 
-abstract class Scraper : Serializable {
+abstract class Scraper(rememberMaxPosts: Int = 1000) : Serializable {
 
-    private var mostRecentPostDate: Date? = null
+    private val seenPosts: MaxSizeHashSet<Post> = MaxSizeHashSet(rememberMaxPosts)
 
     /**
      * Gets all the posts
      */
-    abstract suspend fun getAllPosts(): SortedPostList
+    abstract suspend fun getAllPosts(): List<Post>
 
     /**
      * Gets all the new posts that have appeared after this function was last called
      */
-    suspend fun getNewPosts(): SortedPostList {
-        return getAllPosts().also {
-            it.removeAllOlderThan(mostRecentPostDate)
-            if (it.isNotEmpty()) {
-                mostRecentPostDate = it[0].date
-            }
-        }
+    suspend fun getNewPosts(): List<Post> {
+        return seenPosts.createTrimmedList(getAllPosts())
     }
 
     /**
@@ -44,7 +39,7 @@ abstract class Scraper : Serializable {
      * Resets the state of the scraper
      */
     fun reset() {
-        mostRecentPostDate = null
+        seenPosts.clear()
     }
 
     /**
@@ -57,6 +52,6 @@ abstract class Scraper : Serializable {
      * Verify that the scraper is working properly
      */
     suspend fun verify(): Boolean {
-        return getAllPosts().size > 0
+        return getAllPosts().isNotEmpty()
     }
 }
