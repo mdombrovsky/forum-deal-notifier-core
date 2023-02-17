@@ -86,7 +86,7 @@ class SortedPostList : ArrayList<Post>(), Comparator<Post> {
         if (p0 != null && p1 != null) {
             val result = p1.date.compareTo(p0.date)
             if (result == 0) {
-                return p0.id.compareTo(p1.id)
+                return p0.hashCode().compareTo(p1.hashCode())
             }
             return result
         } else if (p0 != null) {

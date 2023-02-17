@@ -21,21 +21,6 @@ class Post(
         return "Title: {$title}, Date: {${date}}, Source {${source}}, URL: {${url}}\n"
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Post
-
-        if (id != other.id) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        return id.hashCode()
-    }
-
     fun getAge(): String {
         val diff = System.currentTimeMillis() - date.time
         val curr = Date(System.currentTimeMillis())
@@ -79,6 +64,21 @@ class Post(
 
     fun toPrettyString(): String {
         return "$title\n${url}"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Post
+
+        if (url != other.url) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return url.hashCode()
     }
 
 }
