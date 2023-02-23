@@ -15,7 +15,7 @@ class RFDTrendingScraper : Scraper() {
     private val url = URL("https://forums.redflagdeals.com/")
     override suspend fun getAllPosts(): List<Post> {
         return getTrendingPosts().apply {
-            println("Time: ${Date()}, RFD Scraper, Retrieved ${this.size} posts, last post: ${this.getOrNull(0)?.title}")
+            println("Time: ${Date()}, RFD Trending Scraper, Retrieved ${this.size} posts, last post: ${this.getOrNull(0)?.title}")
         }
     }
 
@@ -40,10 +40,10 @@ class RFDTrendingScraper : Scraper() {
 
     private fun createRfdPost(htmlPost: Element): Post {
         val title = htmlPost.text()
-        val webId = htmlPost.attr("href")
+        val webId = htmlPost.attr("href").substringAfterLast("-")
         return Post(
             title = title,
-            url = "https://forums.redflagdeals.com/$webId",
+            url = "https://forums.redflagdeals.com/-$webId",
             source = "RedFlagDeals: Trending Hot Deals",
         )
     }

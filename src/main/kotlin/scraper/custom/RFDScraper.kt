@@ -80,7 +80,7 @@ class RFDScraper(private val category: Int = 0) : Scraper() {
         val sourceATag = aTags.getOrNull(aTags.lastIndex - 1)
 
         val titleATag = aTags.last()
-        val id = titleATag!!.attr("href")
+        val id = titleATag!!.attr("href").substringAfterLast("-")
 
         val simpleDateFormat = SimpleDateFormat("MMM dd yyyy hh:mm a z", Locale.ENGLISH)
         val date = simpleDateFormat.parse(dateString)
@@ -92,7 +92,7 @@ class RFDScraper(private val category: Int = 0) : Scraper() {
         }
         return Post(
             title = title,
-            url = "https://forums.redflagdeals.com/$id",
+            url = "https://forums.redflagdeals.com/-$id",
             source = "RedFlagDeals: Hot Deals",
             date = date
         )
