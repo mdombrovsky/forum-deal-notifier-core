@@ -93,8 +93,8 @@ class RFDScraper(private val category: Int = 0) : Scraper() {
         return Post(
             title = title,
             url = "https://forums.redflagdeals.com/$id",
-            date = date,
-            source = "RedFlagDeals: Hot Deals"
+            source = "RedFlagDeals: Hot Deals",
+            date = date
         )
     }
 

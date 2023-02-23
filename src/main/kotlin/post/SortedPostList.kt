@@ -83,7 +83,7 @@ class SortedPostList : ArrayList<Post>(), Comparator<Post> {
     }
 
     override fun compare(p0: Post?, p1: Post?): Int {
-        if (p0 != null && p1 != null) {
+        if (p0 != null && p1 != null && p1.date != null && p0.date != null) {
             val result = p1.date.compareTo(p0.date)
             if (result == 0) {
                 return p0.hashCode().compareTo(p1.hashCode())

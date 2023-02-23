@@ -19,10 +19,14 @@ fun URL.getInputSteam(userAgent: String = "9d42e38f-bebb-4a67-b45c-4968136bb534"
 fun getData(urlString: String): String {
     val url = URL(urlString)
 
+    return url.getData()
+}
+
+fun URL.getData(): String {
     val response: String = try {
-        url.getInputSteam().bufferedReader().readText()
+        this.getInputSteam().bufferedReader().readText()
     } catch (e: Exception) {
-        println("URL: ${urlString}, Error getting response: $e")
+        println("URL: ${this.host}, Error getting response: $e")
         ""
     }
     return response

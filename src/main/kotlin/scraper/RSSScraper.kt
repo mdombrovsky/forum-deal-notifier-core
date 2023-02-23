@@ -25,7 +25,7 @@ class RSSScraper(private val url: URL) : Scraper() {
             for (entry in feed.entries) {
                 try {
                     posts.add(
-                        Post(title = entry.title, url = entry.link, date = entry.publishedDate, source = feed.title)
+                        Post(title = entry.title, url = entry.link, source = feed.title, date = entry.publishedDate)
                     )
                 } catch (e: Exception) {
                     println("Unable to capture RSS post, in ${this.getName()}")
