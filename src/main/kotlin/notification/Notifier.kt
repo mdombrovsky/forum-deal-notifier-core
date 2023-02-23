@@ -4,5 +4,14 @@ import Post
 import user.User
 
 interface Notifier {
-    fun notify(user: User, post: Post, title: String = "")
+    fun message(user: User, message: String)
+    fun notify(user: User, post: Post, title: String = "") {
+        this.message(
+            user, if (title.trim().isNotEmpty()) {
+                "${title}\n\n${post.toPrettyString()}"
+            } else {
+                post.toPrettyString()
+            }
+        )
+    }
 }

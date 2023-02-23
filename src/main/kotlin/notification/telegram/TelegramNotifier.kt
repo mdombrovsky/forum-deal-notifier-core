@@ -1,6 +1,5 @@
 package notification.telegram
 
-import Post
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.entities.ChatId
 import notification.Notifier
@@ -11,23 +10,15 @@ class TelegramNotifier(private val apiKey: String) : Notifier {
         token = apiKey
     }
 
-    override fun notify(user: User, post: Post, title: String) {
+    override fun message(user: User, message: String) {
         val id = user.retrieveCredential(TelegramId::class.java)
         if (id == null) {
             throw UnsupportedOperationException("Telegram notifications not registered with user")
         } else {
-            notify(id.value.toLong(), title, post.toPrettyString())
+            bot.sendMessage(
+                chatId = ChatId.fromId(id.value.toLong()),
+                text = message
+            )
         }
-    }
-
-    private fun notify(id: Long, title: String = "", postDescription: String) {
-        bot.sendMessage(
-            chatId = ChatId.fromId(id),
-            text = if (title.trim().isNotEmpty()) {
-                "${title}\n\n${postDescription}"
-            } else {
-                postDescription
-            }
-        )
     }
 }
