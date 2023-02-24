@@ -5,7 +5,7 @@ import post.PostFinder
 import query.simplequery.getSimpleQueryFrom
 import user.User
 
-class QueriesManager {
+class QueriesManager internal constructor() {
     private val managedQueriesList: ArrayList<ManagedQuery> = ArrayList()
 
     val queries: List<ManagedQuery> = managedQueriesList
