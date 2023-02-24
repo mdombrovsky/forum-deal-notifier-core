@@ -18,6 +18,7 @@ class MaxSizeHashSet<T>(private val maxEntries: Int) : LinkedHashSet<T>() {
                 newList.add(element)
             }
         }
+        println("HashSet size: ${this.size}, old list size: ${oldList.size}, new list size: ${newList.size}")
         return newList
     }
 }

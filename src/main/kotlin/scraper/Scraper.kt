@@ -23,7 +23,9 @@ abstract class Scraper(rememberMaxPosts: Int = 1000) : Serializable {
     /**
      * The displayable name of this scraper
      */
-    abstract fun getName(): String
+    open fun getName(): String {
+        return this::class.java.simpleName
+    }
 
     /**
      * Need to override this method
@@ -45,7 +47,9 @@ abstract class Scraper(rememberMaxPosts: Int = 1000) : Serializable {
     /**
      * Get the configuration string so the scraper can be rebuilt
      */
-    abstract fun getConfig(): String
+    open fun getConfig(): String {
+        return ""
+    }
 
 
     /**
