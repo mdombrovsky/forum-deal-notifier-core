@@ -11,6 +11,12 @@ import java.util.*
 
 class RedditJSONScraper(private val subReddit: String) : Scraper() {
 
+    init {
+        if (!subReddit.isValidSubredditName()) {
+            throw IllegalArgumentException("Invalid subreddit name: $subReddit")
+        }
+    }
+
     override suspend fun getAllPosts(): SortedPostList {
         return redditJSONToPosts(
             getData(
@@ -92,4 +98,11 @@ class RedditJSONScraper(private val subReddit: String) : Scraper() {
     override fun getConfig(): String {
         return subReddit
     }
+
+    /**
+     * Checks if a string is a valid subreddit name according to:
+     * https://stackoverflow.com/questions/21109968/python-regex-to-match-subreddit-names
+     */
+    private fun String.isValidSubredditName(): Boolean =
+        this.matches(Regex("([a-zA-Z0-9][_a-zA-Z0-9]{2,20})"))
 }

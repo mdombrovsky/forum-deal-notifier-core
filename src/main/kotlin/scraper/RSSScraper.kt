@@ -5,16 +5,23 @@ import SortedPostList
 import com.rometools.rome.feed.synd.SyndFeed
 import com.rometools.rome.io.SyndFeedInput
 import com.rometools.rome.io.XmlReader
+import java.net.MalformedURLException
 import java.net.URL
 import java.util.*
 
-class RSSScraper(private val url: URL) : Scraper() {
+class RSSScraper(private val url: String) : Scraper() {
 
-    private fun getRSSFeed(url: URL): SyndFeed? {
+    init {
+        if (url.getURL() == null) {
+            throw IllegalArgumentException("Invalid URL: $url")
+        }
+    }
+
+    private fun getRSSFeed(url: String): SyndFeed? {
         return try {
-            SyndFeedInput().build(XmlReader(url.getInputSteam()))
+            SyndFeedInput().build(XmlReader(url.getURL()!!.getInputSteam()))
         } catch (e: Exception) {
-            println("URL: ${url.toExternalForm()}, Error getting response: $e")
+            println("URL: ${url}, Error getting response: $e")
             null
         }
     }
@@ -34,7 +41,7 @@ class RSSScraper(private val url: URL) : Scraper() {
         }
         return posts.apply {
             println(
-                "Time: ${Date()}, RSS Scraper: ${url.toExternalForm()}, Retrieved ${this.size} posts, last post: ${
+                "Time: ${Date()}, RSS Scraper: ${url}, Retrieved ${this.size} posts, last post: ${
                     this.getOrNull(
                         0
                     )?.title
@@ -64,5 +71,16 @@ class RSSScraper(private val url: URL) : Scraper() {
 
     override fun getConfig(): String {
         return url.toString()
+    }
+
+    /**
+     * Transforms a string into an url, return null if unable to
+     */
+    private fun String.getURL(): URL? {
+        return try {
+            URL(this)
+        } catch (e: MalformedURLException) {
+            null
+        }
     }
 }
