@@ -5,8 +5,6 @@ import SortedPostList
 import com.rometools.rome.feed.synd.SyndFeed
 import com.rometools.rome.io.SyndFeedInput
 import com.rometools.rome.io.XmlReader
-import java.net.MalformedURLException
-import java.net.URL
 import java.util.*
 
 class RSSScraper(private val url: String) : Scraper() {
@@ -71,16 +69,5 @@ class RSSScraper(private val url: String) : Scraper() {
 
     override fun getConfig(): String {
         return url.toString()
-    }
-
-    /**
-     * Transforms a string into an url, return null if unable to
-     */
-    private fun String.getURL(): URL? {
-        return try {
-            URL(this)
-        } catch (e: MalformedURLException) {
-            null
-        }
     }
 }

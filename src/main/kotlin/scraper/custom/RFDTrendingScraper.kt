@@ -2,43 +2,16 @@ package scraper.custom
 
 
 import Post
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
-import scraper.Scraper
-import scraper.getData
-import java.net.URL
-import java.util.*
+import scraper.HtmlWebScraper
 
 
-class RFDTrendingScraper : Scraper() {
-    private val url = URL("https://forums.redflagdeals.com/")
-    override suspend fun getAllPosts(): List<Post> {
-        return getTrendingPosts().apply {
-            println("Time: ${Date()}, RFD Trending Scraper, Retrieved ${this.size} posts, last post: ${this.getOrNull(0)?.title}")
-        }
+class RFDTrendingScraper : HtmlWebScraper("", "https://forums.redflagdeals.com/") {
+    override fun getPostElementsFromDocument(document: Element): List<Element> {
+        return document.getElementsByClass("thread_title")
     }
 
-    override fun getName(): String {
-        return "RFD Trending"
-    }
-
-
-    private suspend fun getTrendingPosts(): List<Post> {
-        val posts = ArrayList<Post>()
-
-        val doc: Document = Jsoup.parse(url.getData())
-        val htmlPosts = doc.getElementsByClass("thread_title")
-
-        for (htmlPost: Element in htmlPosts) {
-            val post = createRfdPost(htmlPost)
-            posts.add(post)
-        }
-
-        return posts
-    }
-
-    private fun createRfdPost(htmlPost: Element): Post {
+    override fun createPostFromElement(htmlPost: Element): Post {
         val title = htmlPost.text()
         val webId = htmlPost.attr("href").substringAfterLast("-")
         return Post(
@@ -48,22 +21,23 @@ class RFDTrendingScraper : Scraper() {
         )
     }
 
+
+    override fun getName(): String {
+        return "RFD trending posts"
+    }
+
     override fun getConfig(): String {
-        return "trending"
+        return ""
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
-
-        other as RFDTrendingScraper
-
-        if (url != other.url) return false
-
+        if (!super.equals(other)) return false
         return true
     }
 
     override fun hashCode(): Int {
-        return url.hashCode()
+        return javaClass.name.hashCode()
     }
 }

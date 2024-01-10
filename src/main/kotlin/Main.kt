@@ -4,7 +4,7 @@ import notification.telegram.TelegramNotifier
 import post.PostFinderManager
 import query.universal.MatchAll
 import scraper.Scraper
-import scraper.custom.RFDScraper
+import scraper.custom.RFDNewScraper
 import user.User
 import java.io.BufferedReader
 import java.io.File
@@ -16,7 +16,7 @@ suspend fun main(args: Array<String>) {
 //    val scraper: Scraper = RedditJSONScraper("all")
     val manager = PostFinderManager()
 
-    val scraper: Scraper = RFDScraper()
+    val scraper: Scraper = RFDNewScraper()
 
     val bufferedReader: BufferedReader = File("telegram_user.api").bufferedReader()
     val telegramUserId = bufferedReader.use { it.readText() }.trim()

@@ -3,7 +3,7 @@ package examples
 import notification.stdout.PrintlnNotifier
 import post.PostFinderManager
 import scraper.Scraper
-import scraper.custom.RFDScraper
+import scraper.custom.RFDNewScraper
 import user.User
 
 
@@ -11,7 +11,7 @@ suspend fun main() {
     val manager = PostFinderManager()
 
     // This uses the RFD feed to alert you of new deals
-    val scraper: Scraper = RFDScraper()
+    val scraper: Scraper = RFDNewScraper()
     val user = User("John")
 
     // MatchAll is a simple query that matches all posts, mostly used for debugging

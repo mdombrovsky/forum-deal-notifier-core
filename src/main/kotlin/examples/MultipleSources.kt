@@ -3,7 +3,7 @@ import post.PostFinderManager
 import query.universal.MatchAll
 import scraper.RSSScraper
 import scraper.Scraper
-import scraper.custom.RFDScraper
+import scraper.custom.RFDNewScraper
 import user.User
 
 
@@ -13,7 +13,7 @@ suspend fun main() {
     // This uses SlickDeals RSS feed to alert you of new deals
     val scraper1: Scraper =
         RSSScraper("https://slickdeals.net/newsearch.php?mode=frontpage&searcharea=deals&searchin=first&rss=1")
-    val scraper2: Scraper = RFDScraper()
+    val scraper2: Scraper = RFDNewScraper()
     val user = User("John")
 
 

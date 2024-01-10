@@ -1,6 +1,7 @@
 package scraper
 
 import java.io.InputStream
+import java.net.MalformedURLException
 import java.net.URL
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -30,6 +31,18 @@ fun URL.getData(): String {
         ""
     }
     return response
+}
+
+
+/**
+ * Transforms a string into an url, return null if unable to
+ */
+fun String.getURL(): URL? {
+    return try {
+        URL(this)
+    } catch (e: MalformedURLException) {
+        null
+    }
 }
 
 fun getTimeZoneOffset(): String {

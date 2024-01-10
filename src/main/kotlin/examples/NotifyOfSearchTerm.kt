@@ -2,7 +2,7 @@ import notification.telegram.TelegramId
 import notification.telegram.TelegramNotifier
 import post.PostFinderManager
 import scraper.Scraper
-import scraper.custom.RFDScraper
+import scraper.custom.RFDNewScraper
 import user.User
 
 /**
@@ -13,7 +13,7 @@ import user.User
 suspend fun main(args: Array<String>) {
     val manager = PostFinderManager()
 
-    val scraper: Scraper = RFDScraper()
+    val scraper: Scraper = RFDNewScraper()
 
     val telegramNotifier = TelegramNotifier(args[0])
 
