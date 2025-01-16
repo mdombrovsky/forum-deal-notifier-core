@@ -15,7 +15,11 @@ abstract class HtmlWebScraper(private val config: String = "", private val url: 
 
     abstract fun getPostElementsFromDocument(document: Element): List<Element>
     abstract fun createPostFromElement(htmlPost: Element): Post
-    open fun skipPost(htmlPost: Element): Boolean {
+    open fun excludePostElement(htmlPost: Element): Boolean {
+        return false
+    }
+
+    open fun excludePost(post: Post): Boolean {
         return false
     }
 
@@ -38,8 +42,9 @@ abstract class HtmlWebScraper(private val config: String = "", private val url: 
             val postElements = getPostElementsFromDocument(document)
 
             for (postElement: Element in postElements) {
-                if (skipPost(postElement)) continue
+                if (excludePostElement(postElement)) continue
                 val post = createPostFromElement(postElement)
+                if (excludePost(post)) continue
                 posts.add(post)
             }
         }

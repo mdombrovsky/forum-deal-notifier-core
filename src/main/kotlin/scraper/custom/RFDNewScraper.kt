@@ -48,6 +48,11 @@ class RFDNewScraper : HtmlWebScraper("", "https://forums.redflagdeals.com/hot-de
         )
     }
 
+    override fun excludePostElement(htmlPost: Element): Boolean {
+        return htmlPost.selectFirst("h3.thread_title a.thread_title_link")!!.text()
+            .trim().startsWith("[Sponsored]")
+    }
+
     override fun getName(): String {
         return "RFD new posts"
     }
