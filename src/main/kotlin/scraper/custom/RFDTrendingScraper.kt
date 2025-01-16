@@ -8,12 +8,13 @@ import scraper.HtmlWebScraper
 
 class RFDTrendingScraper : HtmlWebScraper("", "https://forums.redflagdeals.com/") {
     override fun getPostElementsFromDocument(document: Element): List<Element> {
-        return document.getElementsByClass("thread_title")
+        return document.getElementsByClass("list_item")
     }
 
     override fun createPostFromElement(htmlPost: Element): Post {
-        val title = htmlPost.text()
-        val webId = htmlPost.attr("href").substringAfterLast("-")
+        val titleTag = htmlPost.select("a.thread_title")
+        val title = titleTag.text()
+        val webId = titleTag.attr("href").substringAfterLast("-")
         return Post(
             title = title,
             url = "https://forums.redflagdeals.com/-$webId",
@@ -21,6 +22,10 @@ class RFDTrendingScraper : HtmlWebScraper("", "https://forums.redflagdeals.com/"
         )
     }
 
+    override fun excludePostElement(htmlPost: Element): Boolean {
+        val score = htmlPost.select("span.thread_vote_count").text().toIntOrNull()
+        return score != null && score < 0
+    }
 
     override fun getName(): String {
         return "RFD trending posts"
