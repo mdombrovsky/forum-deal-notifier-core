@@ -8,7 +8,7 @@ interface Notifier {
     fun notify(user: User, post: Post, title: String = "") {
         this.message(
             user, if (title.trim().isNotEmpty()) {
-                "${title}\n\n${post.toPrettyString()}"
+                "${post.toPrettyString()}\n\n${title}"
             } else {
                 post.toPrettyString()
             }
