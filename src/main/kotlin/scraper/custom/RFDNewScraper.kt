@@ -4,40 +4,44 @@ package scraper.custom
 import Post
 import org.jsoup.nodes.Element
 import scraper.HtmlWebScraper
-import scraper.getTimeZoneOffset
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class RFDNewScraper : HtmlWebScraper("", "https://forums.redflagdeals.com/hot-deals-f9/?st=0&rfd_sk=tt&sd=d") {
+class RFDNewScraper : HtmlWebScraper("", "https://forums.redflagdeals.com/hot-deals-f9/?rfd_sk=tt&sd=d&sk=tt") {
     override fun getPostElementsFromDocument(document: Element): List<Element> {
-        return document.getElementsByClass("thread_info_title")
+        return document.getElementsByClass("thread_main")
     }
 
     override fun createPostFromElement(htmlPost: Element): Post {
-        val aTags = htmlPost.getElementsByTag("h3")[0].getElementsByTag("a")
+        /*
+            Old method of date getting for reference
 
-        //Note: This has been a source of bugs in the past because it would not account for daylight saving time, I have attempted to remedy it
-        //The regex is there for greatly simplifying date parsing
-        val dateString: String = htmlPost.getElementsByClass("first-post-time").text()
-            .replace("(?<=\\d)(rd|st|nd|th)\\b,".toRegex(), "") + " ${getTimeZoneOffset()}"
+            //Note: This has been a source of bugs in the past because it would not account for daylight saving time, I have attempted to remedy it
+            //The regex is there for greatly simplifying date parsing
+            val dateString: String = htmlPost.getElementsByClass("first-post-time").text()
+                .replace("(?<=\\d)(rd|st|nd|th)\\b,".toRegex(), "") + " ${getTimeZoneOffset()}"
 
 
-        val sourceATag = aTags.getOrNull(aTags.lastIndex - 1)
+            val simpleDateFormat = SimpleDateFormat("MMM dd yyyy hh:mm a z", Locale.ENGLISH)
+            val date = simpleDateFormat.parse(dateString)
+         */
 
-        val titleATag = aTags.last()
-        val id = titleATag!!.attr("href").substringAfterLast("-")
+        val dateTimeString = htmlPost.select("time").last()!!.attr("datetime")
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ENGLISH)
+        val date = simpleDateFormat.parse(dateTimeString)
 
-        val simpleDateFormat = SimpleDateFormat("MMM dd yyyy hh:mm a z", Locale.ENGLISH)
-        val date = simpleDateFormat.parse(dateString)
+        val sourceTag = htmlPost.selectFirst("a.pill.thread_dealer span")
+        val titleTag = htmlPost.selectFirst("h3.thread_title a.thread_title_link")
+        val id = titleTag!!.attr("href").substringAfterLast("-")
 
-        val title = if (sourceATag != null) {
-            sourceATag.text() + ": " + titleATag.text()
+        val postTitle = if (sourceTag != null) {
+            sourceTag.text() + ": " + titleTag.text()
         } else {
-            titleATag.text()
+            titleTag.text()
         }
         return Post(
-            title = title,
+            title = postTitle,
             url = "https://forums.redflagdeals.com/-$id",
             source = "RedFlagDeals: Hot Deals",
             date = date
