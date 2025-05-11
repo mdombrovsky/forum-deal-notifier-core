@@ -1,5 +1,5 @@
 # Forum Deal Notifier Core
-[![](https://jitpack.io/v/mdombrovsky/forum-deal-notifier-core.svg)](https://jitpack.io/#mdombrovsky/forum-deal-notifier-core)
+[![](https://jitpack.io/v/mdombrovsky/forum-deal-notifier-core.svg)](https://jitpack.io/#mdombrovsky/forum-deal-notifier-core) [![](https://jitci.com/gh/mdombrovsky/forum-deal-notifier-core/svg)](https://jitci.com/gh/mdombrovsky/forum-deal-notifier-core)
 
 #### A library for reading a continuous stream of posts (such as RSS) and notifying users of ones that match their interests
 
