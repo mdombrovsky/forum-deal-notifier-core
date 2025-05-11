@@ -54,6 +54,7 @@ class PostFinderTest {
         user.queriesManager.addQuery(MatchAll(), postFinder, user, notifier)
         runBlocking {
             postFinder.process()
+            // throw out all old posts on load
             assert(notificationCount == 0)
             postFinder.process()
             assert(notificationCount == 2)
