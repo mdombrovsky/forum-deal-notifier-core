@@ -1,10 +1,10 @@
 package scraper
 
 import Post
-import SortedPostList
 import com.rometools.rome.feed.synd.SyndFeed
 import com.rometools.rome.io.SyndFeedInput
 import com.rometools.rome.io.XmlReader
+import post.SortedPostList
 import java.util.*
 
 class RSSScraper(private val url: String) : Scraper() {

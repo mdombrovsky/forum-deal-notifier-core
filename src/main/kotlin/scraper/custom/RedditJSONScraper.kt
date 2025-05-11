@@ -1,10 +1,10 @@
 package scraper.custom
 
 import Post
-import SortedPostList
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import post.SortedPostList
 import scraper.Scraper
 import scraper.getData
 import java.util.*

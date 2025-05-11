@@ -1,35 +1,9 @@
+package post
+
+import Post
 import java.util.*
 
 class SortedPostList : ArrayList<Post>(), Comparator<Post> {
-
-    @Deprecated(
-        message = "This is buggy, it can remove extra posts if two pasts have same post time\n" +
-                "use MaxSizeHashSet instead for keeping track of posts"
-    )
-    fun removeAllOlderThan(date: Date?) {
-        if (date == null) {
-            return
-        }
-
-        val index = Collections.binarySearch(this, Post(date = date), this)
-        val firstIndexToRemove =
-            if (index < 0) {
-                //Not found
-                (index + 1) * (-1)
-            } else {
-                //Found
-                index
-            }
-
-        if (firstIndexToRemove > -1) {
-            //If there are indexes to remove, get rid of them
-            removeRange(
-                firstIndexToRemove,
-                this.size
-            )
-        }
-    }
-
 
     /**
      * Does Binary Search Add, while detecting duplicates

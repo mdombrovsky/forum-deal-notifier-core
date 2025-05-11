@@ -4,7 +4,7 @@ import java.util.*
 
 class Post(
     val title: String = "",
-    val url: String = "",
+    val url: String,
     val source: String = "",
     val date: Date? = null
 ) : Serializable {
@@ -49,5 +49,4 @@ class Post(
     override fun hashCode(): Int {
         return url.hashCode()
     }
-
 }
