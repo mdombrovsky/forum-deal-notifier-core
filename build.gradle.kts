@@ -26,3 +26,5 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+tasks.register("deploy")
