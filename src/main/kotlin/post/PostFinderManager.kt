@@ -35,7 +35,7 @@ class PostFinderManager : PostFinderAllocator {
     private fun createFixedRateTimerForRefresh(secondsInterval: Int): Timer {
         return (
                 fixedRateTimer(
-                    "RSS-Sniper-Refresh-Timer",
+                    "forum-deal-notifier-core-Refresh-Timer",
                     false,
                     0,
                     secondsInterval * 1000.toLong()

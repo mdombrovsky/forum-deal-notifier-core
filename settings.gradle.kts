@@ -1,3 +1,2 @@
-
-rootProject.name = "RSS-Sniper"
+rootProject.name = "forum-deal-notifier-core"
 

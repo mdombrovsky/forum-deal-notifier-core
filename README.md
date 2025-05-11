@@ -1,4 +1,4 @@
-# RSS Sniper library
+# Forum Deal Notifier Core
 
 #### A library for reading a continuous stream of posts (such as RSS) and notifying users of ones that match their interests
 
@@ -12,7 +12,8 @@ Users can be notified of alerts that are triggered through:
 
 ## Limitations
 
-This can only work on sequential RSS/other post feeds, as it uses the published date to keep track of already shown posts.
+This can only work on sequential RSS/other post feeds, as it uses the published date to keep track of already shown
+posts.
 
 **If the published date is missing or not sorted, such as a RSS feed for popular posts, this will not work**
 
