@@ -12,13 +12,6 @@ Here is a screenshot from a a simple Telegram bot built using this library:
 
 The telegram bot is not ready for general release and is proprietary, if you want access to it feel free to email me at michaeldombrovsky@gmail.com
 
-## Limitations
-
-This can only work on sequential RSS/other post feeds, as it uses the published date to keep track of already shown
-posts.
-
-**If the published date is missing or not sorted, such as a RSS feed for popular posts, this will not work**
-
 ## Usage:
 ```kt
 val manager = PostFinderManager()
