@@ -1,4 +1,5 @@
 # Forum Deal Notifier Core
+
 [![](https://jitpack.io/v/mdombrovsky/forum-deal-notifier-core.svg)](https://jitpack.io/#mdombrovsky/forum-deal-notifier-core) [![](https://jitci.com/gh/mdombrovsky/forum-deal-notifier-core/svg)](https://jitci.com/gh/mdombrovsky/forum-deal-notifier-core)
 
 #### A library for reading a continuous stream of posts (such as RSS) and notifying users of ones that match their interests
@@ -11,9 +12,17 @@ Here is a screenshot from a a simple Telegram bot built using this library:
 
 ![image](https://github.com/user-attachments/assets/59c0181c-0f81-4b4f-a665-1bbb461427c8)
 
-The telegram bot is not ready for general release and is proprietary, if you want access to it feel free to email me at michaeldombrovsky@gmail.com
+The telegram bot is not ready for general release and is proprietary, if you want access to it feel free to email me at
+michaeldombrovsky@gmail.com
+
+## Run:
+
+```bash
+./gradlew run -PmainClass=examples.DebugRecentPostsKt
+```
 
 ## Usage:
+
 ```kt
 val manager = PostFinderManager()
 
@@ -34,7 +43,6 @@ user.queriesManager.addQuery(
 manager.startPollingForNewPosts(60)
 ```
 
-
 ## Examples
 
 Examples of how to use this can be found in the [examples](src/main/kotlin/examples) folder
@@ -45,15 +53,19 @@ Examples of how to use this can be found in the [examples](src/main/kotlin/examp
 
 I don't blame you they were created years ago for the purpose of being easy to visualize, not parse text well.
 
-Want something more useful like regex support? No worries, you can just implement the [Query](src/main/kotlin/query/Query.kt) interface and create it.
+Want something more useful like regex support? No worries, you can just implement
+the [Query](src/main/kotlin/query/Query.kt) interface and create it.
 
 ### Want more notification options?
 
-Implement the [Notifier](src/main/kotlin/notification/Notifier.kt) and [NotifierCredentials](src/main/kotlin/notification/NotifierCredentials.kt) classes, with your favourite notification service, such as Discord.
+Implement the [Notifier](src/main/kotlin/notification/Notifier.kt)
+and [NotifierCredentials](src/main/kotlin/notification/NotifierCredentials.kt) classes, with your favourite notification
+service, such as Discord.
 
 ### Your favourite website does not support RSS, or supports it badly?
 
-Just implement the Scraper interface, a good example of that is the [RedditJSONScraper](src/main/kotlin/scraper/custom/RedditJSONScraper.kt)
+Just implement the Scraper interface, a good example of that is
+the [RedditJSONScraper](src/main/kotlin/scraper/custom/RedditJSONScraper.kt)
 
 ## Contribution
 
