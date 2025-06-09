@@ -28,3 +28,9 @@ tasks.test {
 }
 
 tasks.register("deploy")
+
+application {
+    mainClass.set(
+        project.findProperty("mainClass")?.toString()
+    )
+}
