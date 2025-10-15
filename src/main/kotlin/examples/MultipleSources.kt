@@ -1,3 +1,5 @@
+package examples
+
 import notification.stdout.PrintlnNotifier
 import post.PostFinderManager
 import query.universal.MatchAll
@@ -7,7 +9,7 @@ import scraper.custom.RFDNewScraper
 import user.User
 
 
-suspend fun main() {
+fun main() {
     val manager = PostFinderManager()
 
     // This uses SlickDeals RSS feed to alert you of new deals

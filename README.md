@@ -59,7 +59,7 @@ the [Query](src/main/kotlin/query/Query.kt) interface and create it.
 ### Want more notification options?
 
 Implement the [Notifier](src/main/kotlin/notification/Notifier.kt)
-and [NotifierCredentials](src/main/kotlin/notification/NotifierCredentials.kt) classes, with your favourite notification
+and [NotifierUserCredentials](src/main/kotlin/notification/NotifierUserCredentials.kt) classes, with your favourite notification
 service, such as Discord.
 
 ### Your favourite website does not support RSS, or supports it badly?

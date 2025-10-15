@@ -1,21 +1,21 @@
 package user
 
-import notification.NotifierCredentials
+import notification.NotifierUserCredentials
 import query.QueriesManager
 
 class User(val name: String) {
-    private val credentials = HashMap<String, NotifierCredentials>()
+    private val credentials = HashMap<String, NotifierUserCredentials>()
     val queriesManager = QueriesManager()
 
-    fun registerCredential(id: NotifierCredentials) {
+    fun registerCredential(id: NotifierUserCredentials) {
         val key = id::class.java.canonicalName
         if (credentials.containsKey(key)) {
-            throw UnsupportedOperationException("NotifierCredentials already exists")
+            throw UnsupportedOperationException("NotifierUserCredentials already exists")
         }
         credentials[key] = id
     }
 
-    fun deregisterCredential(clazz: Class<out NotifierCredentials>): Boolean {
+    fun deregisterCredential(clazz: Class<out NotifierUserCredentials>): Boolean {
         val key = clazz.canonicalName
         if (!credentials.containsKey(key)) {
             return false
@@ -24,12 +24,12 @@ class User(val name: String) {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T : NotifierCredentials> retrieveCredential(clazz: Class<T>): T? {
+    fun <T : NotifierUserCredentials> retrieveCredential(clazz: Class<T>): T? {
         val key = clazz.canonicalName
         if (credentials[key] == null) {
             return null
         }
         return (credentials[key] as? T
-            ?: throw UnsupportedOperationException("NotifierCredentials retrieval fatal error"))
+            ?: throw UnsupportedOperationException("NotifierUserCredentials retrieval fatal error"))
     }
 }

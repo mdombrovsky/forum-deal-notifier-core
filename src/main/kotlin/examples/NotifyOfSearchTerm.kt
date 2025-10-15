@@ -1,28 +1,25 @@
-import notification.telegram.TelegramId
-import notification.telegram.TelegramNotifier
+package examples
+
+import notification.stdout.PrintlnNotifier
 import post.PostFinderManager
 import scraper.Scraper
 import scraper.custom.RFDNewScraper
 import user.User
 
-/**
- * args:
- *      args[0]: telegram api key
- *      args[1]: telegram user message id
- */
-suspend fun main(args: Array<String>) {
+fun main() {
     val manager = PostFinderManager()
 
     val scraper: Scraper = RFDNewScraper()
 
-    val telegramNotifier = TelegramNotifier(args[0])
+    val notifier = PrintlnNotifier()
 
-    val user = User("John").apply { registerCredential(TelegramId(args[1])) }
+
+    val user = User("John")
 
     user.queriesManager.addSimpleQuery(
         queryString = "(North Face | McMurdo) & parka",
         postFinder = manager.getPostFinder(scraper),
-        notifier = telegramNotifier,
+        notifier = notifier,
         user = user,
         queryTitle = "North Face Parka"
     )
@@ -30,7 +27,7 @@ suspend fun main(args: Array<String>) {
     user.queriesManager.addSimpleQuery(
         queryString = "amazon",
         postFinder = manager.getPostFinder(scraper),
-        notifier = telegramNotifier,
+        notifier = notifier,
         user = user,
         queryTitle = "All Amazon deals"
     )

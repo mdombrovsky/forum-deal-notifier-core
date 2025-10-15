@@ -1,42 +1,34 @@
+package examples
+
+import notification.LongNotifierUserCredentials
 import notification.stdout.PrintlnNotifier
-import notification.telegram.TelegramId
-import notification.telegram.TelegramNotifier
 import post.PostFinderManager
 import query.universal.MatchAll
 import scraper.Scraper
 import scraper.custom.RFDNewScraper
 import user.User
-import java.io.BufferedReader
-import java.io.File
 
 
-suspend fun main(args: Array<String>) {
-//    val url = "https://forums.redflagdeals.com/feed/forum/9"
-//    val scraper: Scraper = RSSScraper(url)
-//    val scraper: Scraper = RedditJSONScraper("all")
+suspend fun main() {
     val manager = PostFinderManager()
 
     val scraper: Scraper = RFDNewScraper()
 
-    val bufferedReader: BufferedReader = File("telegram_user.api").bufferedReader()
-    val telegramUserId = bufferedReader.use { it.readText() }.trim()
-    val user = User("m").apply { registerCredential(TelegramId(telegramUserId)) }
+    val user = User("m").apply { registerCredential(LongNotifierUserCredentials(1L)) }
 
-    val bufferedReader2: BufferedReader = File("telegram.api").bufferedReader()
-    val apiKey = bufferedReader2.use { it.readText() }.trim()
-    val telegramNotifier = TelegramNotifier(apiKey)
+    val notifier = PrintlnNotifier()
 
     user.queriesManager.addSimpleQuery(
         queryString = "Lenovo",
         postFinder = manager.getPostFinder(scraper),
-        notifier = telegramNotifier,
+        notifier = notifier,
         user = user,
         queryTitle = "Test Query (Lenovo)"
     )
     user.queriesManager.addSimpleQuery(
         queryString = "128gb",
         postFinder = manager.getPostFinder(scraper),
-        notifier = telegramNotifier,
+        notifier = notifier,
         user = user,
         queryTitle = "Test Query 2 (128gb)"
     )
@@ -53,7 +45,6 @@ suspend fun main(args: Array<String>) {
         notifier = PrintlnNotifier(),
         user = user
     )
-
 
     manager.process()
 }
