@@ -7,9 +7,9 @@ import java.util.*
 
 abstract class HtmlWebScraper(
     private val url: String,
-    scraperConfig: ScraperConfig,
+    private val scraperContext: ScraperContext,
     private val config: String = ""
-) : Scraper(scraperConfig) {
+) : Scraper(scraperContext) {
 
     init {
         if (url.getURL() == null) {
@@ -34,6 +34,14 @@ abstract class HtmlWebScraper(
             )
         ).apply {
             println("Time: ${Date()}, ${getName()}, Retrieved ${this.size} posts, last post: ${this.getOrNull(0)?.title}")
+            scraperContext.registerLoadedPostsForLog(
+                ScrapeReport(
+                    getName(),
+                    Date(),
+                    this.size,
+                    this.getOrNull(0)?.title
+                )
+            )
         }
     }
 

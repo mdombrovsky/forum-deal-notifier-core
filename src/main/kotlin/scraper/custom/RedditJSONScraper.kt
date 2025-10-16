@@ -5,12 +5,13 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import post.SortedPostList
+import scraper.ScrapeReport
 import scraper.Scraper
-import scraper.ScraperConfig
+import scraper.ScraperContext
 import java.util.*
 
-class RedditJSONScraper(private val subReddit: String, scraperConfig: ScraperConfig = ScraperConfig()) :
-    Scraper(scraperConfig) {
+class RedditJSONScraper(private val subReddit: String, private val scraperContext: ScraperContext = ScraperContext()) :
+    Scraper(scraperContext) {
 
     init {
         if (!subReddit.isValidSubredditName()) {
@@ -24,7 +25,15 @@ class RedditJSONScraper(private val subReddit: String, scraperConfig: ScraperCon
                 "https://www.reddit.com/r/${subReddit}/new.json?limit=100"
             )
         ).apply {
-            println("Time: ${Date()}, Reddit Scraper, Retrieved ${this.size} posts, last post: ${this.getOrNull(0)?.title}")
+            println("Time: ${Date()}, ${getName()}, Retrieved ${this.size} posts, last post: ${this.getOrNull(0)?.title}")
+            scraperContext.registerLoadedPostsForLog(
+                ScrapeReport(
+                    getName(),
+                    Date(),
+                    this.size,
+                    this.getOrNull(0)?.title
+                )
+            )
         }
     }
 

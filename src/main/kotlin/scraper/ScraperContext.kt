@@ -1,6 +1,6 @@
 package scraper
 
-open class ScraperConfig {
+open class ScraperContext {
     /**
      * Max amount of posts to keep in memory to avoid duplicates
      *
@@ -19,4 +19,6 @@ open class ScraperConfig {
             "User-Agent" to "9d42e38f-bebb-4a67-b45c-4968136bb534",
         )
     }
+
+    open fun registerLoadedPostsForLog(scrapeReport: ScrapeReport) {}
 }

@@ -7,10 +7,10 @@ import java.io.Serializable
 import java.net.MalformedURLException
 import java.net.URL
 
-abstract class Scraper(private val scraperConfig: ScraperConfig) :
+abstract class Scraper(private val scraperContext: ScraperContext) :
     Serializable {
 
-    private val seenPosts: MaxSizeHashSet<Post> = MaxSizeHashSet(scraperConfig.rememberMaxPosts)
+    private val seenPosts: MaxSizeHashSet<Post> = MaxSizeHashSet(scraperContext.rememberMaxPosts)
 
     /**
      * Gets all the posts
@@ -69,7 +69,7 @@ abstract class Scraper(private val scraperConfig: ScraperConfig) :
             connectTimeout = 5000
             readTimeout = 5000
 
-            scraperConfig.getRequestProps().forEach { (key, value) ->
+            scraperContext.getRequestProps().forEach { (key, value) ->
                 setRequestProperty(key, value)
             }
         }.inputStream
