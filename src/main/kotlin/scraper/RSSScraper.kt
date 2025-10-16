@@ -7,7 +7,8 @@ import com.rometools.rome.io.XmlReader
 import post.SortedPostList
 import java.util.*
 
-class RSSScraper(private val url: String) : Scraper() {
+class RSSScraper(private val url: String, scraperConfig: ScraperConfig = ScraperConfig()) :
+    Scraper(scraperConfig) {
 
     init {
         if (url.getURL() == null) {

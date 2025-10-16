@@ -3,8 +3,10 @@ package scraper.custom
 import Post
 import org.jsoup.nodes.Element
 import scraper.HtmlWebScraper
+import scraper.ScraperConfig
 
-class SlickdealsScraper : HtmlWebScraper("", "https://slickdeals.net/") {
+class SlickdealsScraper(scraperConfig: ScraperConfig = ScraperConfig()) :
+    HtmlWebScraper("https://slickdeals.net/", scraperConfig) {
     override fun getPostElementsFromDocument(document: Element): List<Element> {
         return document.select("li.bp-p-sidebarDeals_deal")
     }

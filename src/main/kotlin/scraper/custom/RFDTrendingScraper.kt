@@ -4,9 +4,11 @@ package scraper.custom
 import Post
 import org.jsoup.nodes.Element
 import scraper.HtmlWebScraper
+import scraper.ScraperConfig
 
 
-class RFDTrendingScraper : HtmlWebScraper("", "https://forums.redflagdeals.com/") {
+class RFDTrendingScraper(scraperConfig: ScraperConfig = ScraperConfig()) :
+    HtmlWebScraper("https://forums.redflagdeals.com/", scraperConfig) {
     override fun getPostElementsFromDocument(document: Element): List<Element> {
         return document.getElementsByClass("list_item")
     }

@@ -6,6 +6,7 @@ import notification.Notifier
 import org.junit.jupiter.api.Test
 import query.universal.MatchAll
 import scraper.Scraper
+import scraper.ScraperConfig
 import user.User
 
 class PostFinderTest {
@@ -18,7 +19,7 @@ class PostFinderTest {
             }
         }
         var postFinderCalledCount = 0
-        val postFinder = PostFinder(object : Scraper() {
+        val postFinder = PostFinder(object : Scraper(ScraperConfig()) {
             override fun equals(other: Any?): Boolean {
                 TODO("Not yet implemented")
             }

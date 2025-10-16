@@ -5,7 +5,11 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.util.*
 
-abstract class HtmlWebScraper(private val config: String = "", private val url: String) : Scraper() {
+abstract class HtmlWebScraper(
+    private val url: String,
+    scraperConfig: ScraperConfig,
+    private val config: String = ""
+) : Scraper(scraperConfig) {
 
     init {
         if (url.getURL() == null) {

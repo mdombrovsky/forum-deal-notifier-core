@@ -4,11 +4,13 @@ package scraper.custom
 import Post
 import org.jsoup.nodes.Element
 import scraper.HtmlWebScraper
+import scraper.ScraperConfig
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class RFDNewScraper : HtmlWebScraper("", "https://forums.redflagdeals.com/hot-deals-f9/?rfd_sk=tt&sd=d&sk=tt") {
+class RFDNewScraper(scraperConfig: ScraperConfig = ScraperConfig()) :
+    HtmlWebScraper("https://forums.redflagdeals.com/hot-deals-f9/?rfd_sk=tt&sd=d&sk=tt", scraperConfig) {
     override fun getPostElementsFromDocument(document: Element): List<Element> {
         return document.getElementsByClass("thread_main")
     }

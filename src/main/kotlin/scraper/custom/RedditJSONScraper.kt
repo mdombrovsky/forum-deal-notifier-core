@@ -6,10 +6,11 @@ import org.json.JSONException
 import org.json.JSONObject
 import post.SortedPostList
 import scraper.Scraper
-import scraper.getData
+import scraper.ScraperConfig
 import java.util.*
 
-class RedditJSONScraper(private val subReddit: String) : Scraper() {
+class RedditJSONScraper(private val subReddit: String, scraperConfig: ScraperConfig = ScraperConfig()) :
+    Scraper(scraperConfig) {
 
     init {
         if (!subReddit.isValidSubredditName()) {
