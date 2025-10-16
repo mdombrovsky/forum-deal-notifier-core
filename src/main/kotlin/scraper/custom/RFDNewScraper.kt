@@ -16,19 +16,6 @@ class RFDNewScraper(scraperConfig: ScraperConfig = ScraperConfig()) :
     }
 
     override fun createPostFromElement(htmlPost: Element): Post {
-        /*
-            Old method of date getting for reference
-
-            //Note: This has been a source of bugs in the past because it would not account for daylight saving time, I have attempted to remedy it
-            //The regex is there for greatly simplifying date parsing
-            val dateString: String = htmlPost.getElementsByClass("first-post-time").text()
-                .replace("(?<=\\d)(rd|st|nd|th)\\b,".toRegex(), "") + " ${getTimeZoneOffset()}"
-
-
-            val simpleDateFormat = SimpleDateFormat("MMM dd yyyy hh:mm a z", Locale.ENGLISH)
-            val date = simpleDateFormat.parse(dateString)
-         */
-
         val dateTimeString = htmlPost.select("time").last()!!.attr("datetime")
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ENGLISH)
         val date = simpleDateFormat.parse(dateTimeString)
