@@ -18,7 +18,7 @@ class RSSScraper(private val url: String, scraperContext: ScraperContext = Scrap
 
     private fun getRSSFeed(url: String): SyndFeed? {
         return try {
-            SyndFeedInput().build(XmlReader(url.getURL()!!.getInputSteam()))
+            SyndFeedInput().build(XmlReader(url.getURL()!!.getInputStream()))
         } catch (e: Exception) {
             println("URL: ${url}, Error getting response: $e")
             null

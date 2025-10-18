@@ -16,7 +16,7 @@ open class ScraperContext {
      */
     open fun getRequestProps(): Map<String, String> {
         return mapOf(
-            "User-Agent" to "9d42e38f-bebb-4a67-b45c-4968136bb534",
+            "User-Agent" to "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         )
     }
 

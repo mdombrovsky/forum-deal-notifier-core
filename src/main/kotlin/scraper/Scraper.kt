@@ -1,11 +1,16 @@
 package scraper
 
 import Post
+import org.apache.commons.compress.compressors.brotli.BrotliCompressorInputStream
 import utils.MaxSizeHashSet
+import java.io.BufferedInputStream
 import java.io.InputStream
 import java.io.Serializable
+import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
+import java.util.zip.GZIPInputStream
+import java.util.zip.InflaterInputStream
 
 abstract class Scraper(private val scraperContext: ScraperContext) :
     Serializable {
@@ -63,16 +68,29 @@ abstract class Scraper(private val scraperContext: ScraperContext) :
         return getAllPosts().isNotEmpty()
     }
 
-    protected fun URL.getInputSteam(
-    ): InputStream {
-        return this.openConnection().apply {
-            connectTimeout = 5000
-            readTimeout = 5000
+    protected fun URL.getInputStream(): InputStream {
+        val connection = this.openConnection() as HttpURLConnection
+        connection.connectTimeout = 5000
+        connection.readTimeout = 5000
 
-            scraperContext.getRequestProps().forEach { (key, value) ->
-                setRequestProperty(key, value)
-            }
-        }.inputStream
+        // Set request headers from your scraper context
+        scraperContext.getRequestProps().forEach { (key, value) ->
+            connection.setRequestProperty(key, value)
+        }
+
+        // Important: accept gzip
+        connection.setRequestProperty("Accept-Encoding", "br, gzip, deflate")
+
+        // Detect content encoding from the response
+        val encoding = connection.contentEncoding?.lowercase() ?: ""
+        val rawStream = BufferedInputStream(connection.inputStream)
+
+        return when {
+            encoding.contains("br") -> BrotliCompressorInputStream(rawStream)
+            encoding.contains("gzip") -> GZIPInputStream(rawStream)
+            encoding.contains("deflate") -> InflaterInputStream(rawStream)
+            else -> rawStream
+        }
     }
 
     protected fun getData(urlString: String): String {
@@ -82,13 +100,14 @@ abstract class Scraper(private val scraperContext: ScraperContext) :
     }
 
     protected fun URL.getData(): String {
-        val response: String = try {
-            this.getInputSteam().bufferedReader().readText()
+        return try {
+            this.getInputStream().use { inputStream ->
+                inputStream.bufferedReader().readText()
+            }
         } catch (e: Exception) {
             println("URL: ${this.host}, Error getting response: $e")
             ""
         }
-        return response
     }
 
 

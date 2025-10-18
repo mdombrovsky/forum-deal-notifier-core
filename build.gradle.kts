@@ -18,6 +18,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     implementation("org.json:json:20250107")
     implementation("org.jsoup:jsoup:1.20.1")
+    implementation("org.apache.commons:commons-compress:1.28.0")
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
 }
