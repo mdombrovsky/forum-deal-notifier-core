@@ -1,7 +1,7 @@
 package scraper
 
 import Post
-import org.apache.commons.compress.compressors.brotli.BrotliCompressorInputStream
+import org.brotli.dec.BrotliInputStream
 import utils.MaxSizeHashSet
 import java.io.BufferedInputStream
 import java.io.InputStream
@@ -86,7 +86,7 @@ abstract class Scraper(private val scraperContext: ScraperContext) :
         val rawStream = BufferedInputStream(connection.inputStream)
 
         return when {
-            encoding.contains("br") -> BrotliCompressorInputStream(rawStream)
+            encoding.contains("br") -> BrotliInputStream(rawStream)
             encoding.contains("gzip") -> GZIPInputStream(rawStream)
             encoding.contains("deflate") -> InflaterInputStream(rawStream)
             else -> rawStream
