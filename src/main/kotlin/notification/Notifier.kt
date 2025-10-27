@@ -22,7 +22,7 @@ interface Notifier {
     fun notify(user: User, post: Post, title: String = "") {
         this.message(
             user, if (title.trim().isNotEmpty()) {
-                "${post.toPrettyString()}\n\n${title}"
+                "${post.toPrettyString()}\n${title}"
             } else {
                 post.toPrettyString()
             }
