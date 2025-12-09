@@ -80,7 +80,7 @@ class RedditJSONScraper(private val subReddit: String, private val scraperContex
             val id = jsonPostData.getString("id")
             return (Post(
                 title = jsonPostData.getString("title"),
-                url = "https://www.reddit.com/$id",
+                url = "https://www.reddit.com/comments/$id",
                 source = "Reddit: r/$subReddit",
                 date = Date(jsonPostData.getLong("created_utc") * 1000)
             ))
